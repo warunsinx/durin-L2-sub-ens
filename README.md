@@ -27,9 +27,9 @@ Ensure [Foundry](https://book.getfoundry.sh/) is installed.
    BASE_URI=https://your-base-uri.com/nft/
    ```
 
-- RPC_URL: RPC endpoint for your L2 (e.g., Alchemy or Infura)
-- ETHERSCAN_API_KEY: For contract verification (available from your L2's block explorer)
-- BASE_URI: URL for your NFT metadata (modifiable later via setBaseURI)
+   - RPC_URL: RPC endpoint for your L2 (e.g., Alchemy or Infura)
+   - ETHERSCAN_API_KEY: For contract verification (available from your L2's block explorer)
+   - BASE_URI: URL for your NFT metadata (modifiable later via setBaseURI)
 
 3. **Deploy NFTRegistry contract**
 
@@ -37,7 +37,7 @@ Ensure [Foundry](https://book.getfoundry.sh/) is installed.
    bash deploy/deployNFTRegistry.sh
    ```
 
-Take note of the deployed contract address.
+   Take note of the deployed contract address.
 
 4. **Update .env for NFTRegistrar deployment**
 
@@ -67,7 +67,7 @@ Take note of the deployed contract address.
    - `MIN_REGISTRATION_DURATION` and `MAX_REGISTRATION_DURATION`: Minimum and maximum duration a wallet can own a name (in seconds)
    - `CHAR_AMOUNTS`: Pricing for names by length (in USD/second, 18 decimal precision). See the Notes at the bottom of the page for an in depth explanation.
 
-Note: Except for commitment ages, these parameters can be modified later via the contract.
+   Note: Except for commitment ages, these parameters can be modified later via the contract.
 
 5. **Deploy NFTRegistrar contract**
 
@@ -91,11 +91,11 @@ Note: Except for commitment ages, these parameters can be modified later via the
    bash deploy/grantPermission.sh
    ```
 
-This grants the Registrar the ability to mint names on the Registry.
+   This grants the Registrar the ability to mint names on the Registry.
 
 7. **Connect base name to resolver and registry**
 
-(Instructions coming soon)
+   (Instructions coming soon)
 
 ## Usage
 
