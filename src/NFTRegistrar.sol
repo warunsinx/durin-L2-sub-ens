@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
-import {StringUtils} from "./ens-utils/StringUtils.sol";
+import {StringUtils} from "./utils/StringUtils.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {BytesUtilsSub} from "./utils/BytesUtilsSub.sol";
 import {INFTRegistry} from "./INFTRegistry.sol";

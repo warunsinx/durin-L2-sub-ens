@@ -25,11 +25,13 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
    ETHERSCAN_API_KEY=your-etherscan-api-key
    PRIVATE_KEY=your-private-key-here
    BASE_URI=https://your-base-uri.com/nft/
+   CONTRACT_SYMBOL=your-contract-symbol-here
    ```
 
    - RPC_URL: RPC endpoint for your L2 (e.g., Alchemy or Infura)
    - ETHERSCAN_API_KEY: For contract verification (available from your L2's block explorer)
    - BASE_URI: URL for your NFT metadata (modifiable later via setBaseURI)
+   - CONTRACT_SYMBOL: Symbol for your NFT collection
 
 3. **Deploy NFTRegistry contract**
 
