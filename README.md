@@ -109,19 +109,19 @@ CHAR_AMOUNTS defines the price for different name lengths in USD per second, wit
 
 Steps:
 
-Set the yearly price in USD for each name length.
-Convert it to a per-second price.
-Multiply by 10^18 for precision.
+Set the yearly price in USD for each name length.  
+Convert it to a per-second price.  
+Multiply by 10^18 for precision.  
 Example for 1-character names:
 
-Yearly price: $1
-Per-second price: $1 / (365 _ 24 _ 60 _ 60) ≈ $0.0000000317098
-18 decimal precision: 0.0000000317098 _ 10^18 = 31709791983
+Yearly price: $1  
+Per-second price: $1 / (365 _ 24 _ 60 _ 60) ≈ $0.0000000317098  
+18 decimal precision: 0.0000000317098 _ 10^18 = 31709791983  
 The array in this example corresponds to:
 
-0-character names: free
-1-character names: $1/year = 2029426686960
-2-character names: $4/year = 507356671740
-3-character names: $16/year = 126839167935
-4-character names: $64/year = 31709791983
+0-character names: free  
+1-character names: $1/year = 2029426686960  
+2-character names: $4/year = 507356671740  
+3-character names: $16/year = 126839167935  
+4-character names: $64/year = 31709791983  
 Adjust the values to fit your pricing structure.
