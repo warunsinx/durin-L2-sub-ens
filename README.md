@@ -1,10 +1,10 @@
 # Durin NFT Contracts
 
-These contracts, produced with the help of Unruggable, allow you to issue NFT subnames on an L2 network. Follow the instructions below to set up and deploy the contracts.
+These contracts, developed with Unruggable, allow you to issue NFT subnames on an L2 network. Follow the steps below to set up and deploy the contracts.
 
 ## Prerequisites
 
-Ensure you have [Foundry](https://book.getfoundry.sh/) installed.
+Ensure [Foundry](https://book.getfoundry.sh/) is installed.
 
 ## Setup and Deployment
 
@@ -17,7 +17,7 @@ Ensure you have [Foundry](https://book.getfoundry.sh/) installed.
 
 2. **Set up environment variables**
 
-   Copy `example.env` to `.env` and update the following variables:
+   Copy `example.env` to `.env` and update the following values:
 
    ```env
    # NFTRegistry contract deployment
@@ -27,9 +27,9 @@ Ensure you have [Foundry](https://book.getfoundry.sh/) installed.
    BASE_URI=https://your-base-uri.com/nft/
    ```
 
-   - `RPC_URL`: RPC endpoint for your L2 (available from Alchemy or Infura)
-   - `ETHERSCAN_API_KEY`: Required for contract verification (obtain from your L2's block explorer)
-   - `BASE_URI`: URL for your NFT metadata (can be updated later via `setBaseURI`)
+- RPC_URL: RPC endpoint for your L2 (e.g., Alchemy or Infura)
+- ETHERSCAN_API_KEY: For contract verification (available from your L2's block explorer)
+- BASE_URI: URL for your NFT metadata (modifiable later via setBaseURI)
 
 3. **Deploy NFTRegistry contract**
 
@@ -37,11 +37,11 @@ Ensure you have [Foundry](https://book.getfoundry.sh/) installed.
    bash deploy/deployNFTRegistry.sh
    ```
 
-   Note the deployed contract address.
+Take note of the deployed contract address.
 
 4. **Update .env for NFTRegistrar deployment**
 
-   Add the following variables to your `.env` file:
+   Update the following values on your `.env` file:
 
    ```env
    # NFTRegistrar contract deployment
@@ -59,15 +59,15 @@ Ensure you have [Foundry](https://book.getfoundry.sh/) installed.
 
    Explanations:
 
-   - `REGISTRY_ADDRESS`: Address of the deployed NFTRegistry contract
-   - `USD_ORACLE_ADDRESS`: Oracle for USD to L2 native currency conversion (find at [Chainlink Data Feeds](https://data.chain.link/feeds))
-   - `MIN_CHARS` and `MAX_CHARS`: Minimum and maximum allowed characters for names
-   - `MAX_FREE_REGISTRATIONS`: Maximum number of free names one wallet can register
-   - `MIN_COMMITMENT_AGE` and `MAX_COMMITMENT_AGE`: Used for lockups to prevent two wallets from claiming the same name (in seconds). It is fine to use the defaults if you are unsure.
+   - `REGISTRY_ADDRESS`: Address of the NFTRegistry contract
+   - `USD_ORACLE_ADDRESS`: Oracle address for USD/L2 currency conversion ([Chainlink Data Feeds](https://data.chain.link/feeds))
+   - `MIN_CHARS` and `MAX_CHARS`: Minimum and maximum characters allowed for names
+   - `MAX_FREE_REGISTRATIONS`: Free name limit per wallet
+   - `MIN_COMMITMENT_AGE` and `MAX_COMMITMENT_AGE`: Lockup times (in seconds) to prevent multiple claims on the same name. The defaults are ok if you are unsure.
    - `MIN_REGISTRATION_DURATION` and `MAX_REGISTRATION_DURATION`: Minimum and maximum duration a wallet can own a name (in seconds)
-   - `CHAR_AMOUNTS`: Pricing for different name lengths (in USD per second, 18 decimal places). See the Notes at the bottom of the page for a complete explanation.
+   - `CHAR_AMOUNTS`: Pricing for names by length (in USD/second, 18 decimal precision). See the Notes at the bottom of the page for an in depth explanation.
 
-   Note: All parameters except `MIN_COMMITMENT_AGE` and `MAX_COMMITMENT_AGE` can be changed later by calling the appropriate function on a block explorer.
+Note: Except for commitment ages, these parameters can be modified later via the contract.
 
 5. **Deploy NFTRegistrar contract**
 
@@ -79,7 +79,7 @@ Ensure you have [Foundry](https://book.getfoundry.sh/) installed.
 
 6. **Grant permissions to NFTRegistrar**
 
-   Add the Registrar address to your `.env`:
+   Update the Registrar address in your `.env`:
 
    ```env
    REGISTRAR_ADDRESS=0x1234567890123456789012345678901234567890
@@ -91,38 +91,37 @@ Ensure you have [Foundry](https://book.getfoundry.sh/) installed.
    bash deploy/grantPermission.sh
    ```
 
-   This allows the Registrar to mint names on the Registry.
+This grants the Registrar the ability to mint names on the Registry.
 
 7. **Connect base name to resolver and registry**
 
-   (Instructions to be added)
+(Instructions coming soon)
 
 ## Usage
 
-You can now mint names by calling the Registrar. Check out our example frontend or build your own.
+You can now mint names via the Registrar. Check out our example frontend or build your own.
 
 ## Notes
 
 ### CHAR_AMOUNTS Calculation
 
-The `CHAR_AMOUNTS` array represents pricing for different name lengths in USD per second, with 18 decimal places of precision. Here's how the example values are calculated:
+CHAR_AMOUNTS defines the price for different name lengths in USD per second, with 18 decimal precision.
 
-1. Start with the desired yearly price in USD for each name length.
-2. Convert the yearly price to a per-second price.
-3. Multiply by 10^18 to add 18 decimal places of precision.
+Steps:
 
-Example calculation for 1-character names:
+Set the yearly price in USD for each name length.
+Convert it to a per-second price.
+Multiply by 10^18 for precision.
+Example for 1-character names:
 
-- Desired price: $1 per year
-- Per second: $1 / (365 _ 24 _ 60 \* 60) ≈ $0.0000000317098
-- With 18 decimal places: 0.0000000317098 \* 10^18 = 31709791983
+Yearly price: $1
+Per-second price: $1 / (365 _ 24 _ 60 _ 60) ≈ $0.0000000317098
+18 decimal precision: 0.0000000317098 _ 10^18 = 31709791983
+The array in this example corresponds to:
 
-The `CHAR_AMOUNTS` array in the example represent:
-
-- Index 0: 0-character names (free)
-- Index 1: 1-character names ($1/year) = 2029426686960
-- Index 2: 2-character names ($4/year) = 507356671740
-- Index 3: 3-character names ($16/year) = 126839167935
-- Index 4: 4-character names ($64/year) = 31709791983
-
-You can adjust these values to set your desired pricing structure for different name lengths.
+0-character names: free
+1-character names: $1/year = 2029426686960
+2-character names: $4/year = 507356671740
+3-character names: $16/year = 126839167935
+4-character names: $64/year = 31709791983
+Adjust the values to fit your pricing structure.
