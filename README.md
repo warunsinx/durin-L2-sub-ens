@@ -30,6 +30,7 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
 
    - RPC_URL: RPC endpoint for your L2 (e.g., Alchemy or Infura)
    - ETHERSCAN_API_KEY: For contract verification (available from your L2's block explorer)
+   - PRIVATE_KEY: The private key to you wallet with enough L2 funds to deploy contracts
    - BASE_URI: URL for your NFT metadata (modifiable later via setBaseURI)
    - CONTRACT_SYMBOL: Symbol for your NFT collection
 
