@@ -30,7 +30,7 @@ BASE_URI=https://your-base-uri.com/nft/
 ### Step 3: Deploy the NFTRegistry by running the following shell command
 
 ```shell
-$ bash deploy/deployNFTRegistry.sh
+bash deploy/deployNFTRegistry.sh
 ```
 
 Take a note of the Address of the deployed contract
@@ -70,7 +70,7 @@ You can change all of these except MIN_COMMITMENT_AGE and MAX_COMMITMENT_AGE in 
 ### Step 5: Deploy the NFTRegistrar by running the following shell command
 
 ```shell
-$ bash deploy/deployNFTRegistrar.sh
+bash deploy/deployNFTRegistrar.sh
 ```
 
 Take a note of the Address of the deployed contract
@@ -85,7 +85,7 @@ REGISTRAR_ADDRESS=0x1234567890123456789012345678901234567890
 ### Step 7: Grant the NFTRegistrar contract permissions on the NFTRegistry by running the following shell command
 
 ```shell
-$ bash deploy/grantPermission.sh
+bash deploy/grantPermission.sh
 ```
 
 This allows the Registrar to mint names on the Registry
