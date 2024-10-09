@@ -4,7 +4,7 @@ These contracts, developed with Unruggable, allow you to issue NFT subnames on a
 
 ## Prerequisites
 
-Ensure [Foundry](https://book.getfoundry.sh/) is installed.
+Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is installed.
 
 ## Setup and Deployment
 
