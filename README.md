@@ -1,101 +1,128 @@
 # Durin NFT Contracts
 
-**These contracts (produced with the help of unruggable) allow you to issue NFT subnames on an L2. Follow the instructions below.**
+These contracts, produced with the help of Unruggable, allow you to issue NFT subnames on an L2 network. Follow the instructions below to set up and deploy the contracts.
 
-Make sure you have foundry installed:
-https://book.getfoundry.sh/
+## Prerequisites
 
-## Instructions
+Ensure you have [Foundry](https://book.getfoundry.sh/) installed.
 
-### Step 1: Clone this repo
+## Setup and Deployment
 
-```shell
-git clone git@github.com:resolverworks/durin-nft-contracts.git
-```
+1. **Clone the repository**
 
-### Step 2: Rename example.env to .env
+   ```shell
+   git clone git@github.com:resolverworks/durin-nft-contracts.git
+   cd durin-nft-contracts
+   ```
 
-### AND change the variables under Deploy NFTRegistry contract
+2. **Set up environment variables**
 
-```txt
-# Deploy NFTRegistry contract
-RPC_URL=https://your-rpc-url-here
-ETHERSCAN_API_KEY= your-etherscan-api-key
-PRIVATE_KEY=your-private-key-here
-BASE_URI=https://your-base-uri.com/nft/
-```
+   Copy `example.env` to `.env` and update the following variables:
 
-- RPC_URL is the RPC endpoint for your L2. You can get one from alchemy or infura.
-- ETHERSCAN_API_KEY is required to verify contracts. you can get one from your L2's block explorer
-- BASE_URI is where you surface your nft metadata (like images and descriptions). It can be changed later by calling setBaseURI in a block explorer
+   ```env
+   # NFTRegistry contract deployment
+   RPC_URL=https://your-rpc-url-here
+   ETHERSCAN_API_KEY=your-etherscan-api-key
+   PRIVATE_KEY=your-private-key-here
+   BASE_URI=https://your-base-uri.com/nft/
+   ```
 
-### Step 3: Deploy the NFTRegistry by running the following shell command
+   - `RPC_URL`: RPC endpoint for your L2 (available from Alchemy or Infura)
+   - `ETHERSCAN_API_KEY`: Required for contract verification (obtain from your L2's block explorer)
+   - `BASE_URI`: URL for your NFT metadata (can be updated later via `setBaseURI`)
 
-```shell
-bash deploy/deployNFTRegistry.sh
-```
+3. **Deploy NFTRegistry contract**
 
-Take a note of the Address of the deployed contract
+   ```shell
+   bash deploy/deployNFTRegistry.sh
+   ```
 
-### Step 4: In your .env change the variables under Deploy NFTRegistrar contract
+   Note the deployed contract address.
 
-```txt
-# Deploy NFTRegistrar contract
-REGISTRY_ADDRESS=0x1234567890123456789012345678901234567890
-USD_ORACLE_ADDRESS=0x9876543210987654321098765432109876543210
-MIN_CHARS=1
-MAX_CHARS=42
-MAX_FREE_REGISTRATIONS=7
-MIN_COMMITMENT_AGE=0
-MAX_COMMITMENT_AGE=120
-MIN_REGISTRATION_DURATION=2592000
-MAX_REGISTRATION_DURATION=15552000
-CHAR_AMOUNTS="0 2029426686960 507356671740 126839167935 31709791983"
-```
+4. **Update .env for NFTRegistrar deployment**
 
-- USD_ORACLE_ADDRESS is the oracle on your L2 that provides a conversion from USD to the L2's native currency. You can find one here https://data.chain.link/feeds
-- MAX_FREE_REGISTRATIONS is maximum free names that 1 wallet can register
-- MIN_COMMITMENT_AGE and MAX_COMMITMENT_AGE is used for lockups to prevent 2 wallets from claiming the same name. 0 and 120 are fine to use.
-- MIN_REGISTRATION_DURATION and MAX_REGISTRATION_DURATION determine how long and short a wallet can own a name. it is in seconds
-- CHAR_AMOUNTS array represents the pricing for different character lengths in the NFTRegistrar contract. The values are given in USD per second, with 18 decimal places of precision. Here is an examplation of the example values
+   Add the following variables to your `.env` file:
 
-```
-0: This is for 0-character names, which are free.
-2029426686960: This equates to $1 per year for 1-character names.
-507356671740: This equates to $4 per year for 2-character names.
-126839167935: This equates to $16 per year for 3-character names.
-31709791983: This equates to $64 per year for 4-character names.
-```
+   ```env
+   # NFTRegistrar contract deployment
+   REGISTRY_ADDRESS=0x1234567890123456789012345678901234567890
+   USD_ORACLE_ADDRESS=0x9876543210987654321098765432109876543210
+   MIN_CHARS=1
+   MAX_CHARS=42
+   MAX_FREE_REGISTRATIONS=7
+   MIN_COMMITMENT_AGE=0
+   MAX_COMMITMENT_AGE=120
+   MIN_REGISTRATION_DURATION=2592000
+   MAX_REGISTRATION_DURATION=15552000
+   CHAR_AMOUNTS="0 2029426686960 507356671740 126839167935 31709791983"
+   ```
 
-You can change all of these except MIN_COMMITMENT_AGE and MAX_COMMITMENT_AGE in the contract by calling the appropriate function on a block explorer
+   Explanations:
 
-### Step 5: Deploy the NFTRegistrar by running the following shell command
+   - `REGISTRY_ADDRESS`: Address of the deployed NFTRegistry contract
+   - `USD_ORACLE_ADDRESS`: Oracle for USD to L2 native currency conversion (find at [Chainlink Data Feeds](https://data.chain.link/feeds))
+   - `MIN_CHARS` and `MAX_CHARS`: Minimum and maximum allowed characters for names
+   - `MAX_FREE_REGISTRATIONS`: Maximum number of free names one wallet can register
+   - `MIN_COMMITMENT_AGE` and `MAX_COMMITMENT_AGE`: Used for lockups to prevent two wallets from claiming the same name (in seconds). It is fine to use the defaults if you are unsure.
+   - `MIN_REGISTRATION_DURATION` and `MAX_REGISTRATION_DURATION`: Minimum and maximum duration a wallet can own a name (in seconds)
+   - `CHAR_AMOUNTS`: Pricing for different name lengths (in USD per second, 18 decimal places). See the Notes at the bottom of the page for a complete explanation.
 
-```shell
-bash deploy/deployNFTRegistrar.sh
-```
+   Note: All parameters except `MIN_COMMITMENT_AGE` and `MAX_COMMITMENT_AGE` can be changed later by calling the appropriate function on a block explorer.
 
-Take a note of the Address of the deployed contract
+5. **Deploy NFTRegistrar contract**
 
-### Step 6: Add your registrar address to the .env
+   ```shell
+   bash deploy/deployNFTRegistrar.sh
+   ```
 
-```
-# Grant NFTRegistrar contract permissions
-REGISTRAR_ADDRESS=0x1234567890123456789012345678901234567890
-```
+   Note the deployed contract address.
 
-### Step 7: Grant the NFTRegistrar contract permissions on the NFTRegistry by running the following shell command
+6. **Grant permissions to NFTRegistrar**
 
-```shell
-bash deploy/grantPermission.sh
-```
+   Add the Registrar address to your `.env`:
 
-This allows the Registrar to mint names on the Registry
+   ```env
+   REGISTRAR_ADDRESS=0x1234567890123456789012345678901234567890
+   ```
 
-### Step 8: Connect your base name to the resolver and registry
+   Then run:
 
-Instructions coming soon.
+   ```shell
+   bash deploy/grantPermission.sh
+   ```
 
-### You can now mint names by calling the Registrar
+   This allows the Registrar to mint names on the Registry.
 
-Check out our example frontend or build your own
+7. **Connect base name to resolver and registry**
+
+   (Instructions to be added)
+
+## Usage
+
+You can now mint names by calling the Registrar. Check out our example frontend or build your own.
+
+## Notes
+
+### CHAR_AMOUNTS Calculation
+
+The `CHAR_AMOUNTS` array represents pricing for different name lengths in USD per second, with 18 decimal places of precision. Here's how the example values are calculated:
+
+1. Start with the desired yearly price in USD for each name length.
+2. Convert the yearly price to a per-second price.
+3. Multiply by 10^18 to add 18 decimal places of precision.
+
+Example calculation for 1-character names:
+
+- Desired price: $1 per year
+- Per second: $1 / (365 _ 24 _ 60 \* 60) ≈ $0.0000000317098
+- With 18 decimal places: 0.0000000317098 \* 10^18 = 31709791983
+
+The `CHAR_AMOUNTS` array in the example represent:
+
+- Index 0: 0-character names (free)
+- Index 1: 1-character names ($1/year) = 2029426686960
+- Index 2: 2-character names ($4/year) = 507356671740
+- Index 3: 3-character names ($16/year) = 126839167935
+- Index 4: 4-character names ($64/year) = 31709791983
+
+You can adjust these values to set your desired pricing structure for different name lengths.
