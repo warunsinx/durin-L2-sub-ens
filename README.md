@@ -1,9 +1,8 @@
-## Durin NFT Contracts
+# Durin NFT Contracts
 
 **These contracts (produced with the help of unruggable) allow you to issue NFT subnames on an L2. Follow the instructions below.**
 
-Make sure you have foundary installed:
-
+Make sure you have foundry installed:
 https://book.getfoundry.sh/
 
 ## Instructions
@@ -18,7 +17,6 @@ $ git clone (this repo)
 
 ```txt
 # Deploy NFTRegistry contract
-
 RPC_URL=https://your-rpc-url-here
 ETHERSCAN_API_KEY= your-etherscan-api-key
 PRIVATE_KEY=your-private-key-here
@@ -41,7 +39,6 @@ Take a note of the Address of the deployed contract
 
 ```txt
 # Deploy NFTRegistrar contract
-
 REGISTRY_ADDRESS=0x1234567890123456789012345678901234567890
 USD_ORACLE_ADDRESS=0x9876543210987654321098765432109876543210
 MIN_CHARS=1
@@ -60,7 +57,8 @@ CHAR_AMOUNTS="0 2029426686960 507356671740 126839167935 31709791983"
 - MIN_REGISTRATION_DURATION and MAX_REGISTRATION_DURATION determine how long and short a wallet can own a name. it is in seconds
 - CHAR_AMOUNTS array represents the pricing for different character lengths in the NFTRegistrar contract. The values are given in USD per second, with 18 decimal places of precision. Here is an examplation of the example values
 
-```0: This is for 0-character names, which are free.
+```
+0: This is for 0-character names, which are free.
 2029426686960: This equates to $1 per year for 1-character names.
 507356671740: This equates to $4 per year for 2-character names.
 126839167935: This equates to $16 per year for 3-character names.
@@ -81,7 +79,6 @@ Take a note of the Address of the deployed contract
 
 ```
 # Grant NFTRegistrar contract permissions
-
 REGISTRAR_ADDRESS=0x1234567890123456789012345678901234567890
 ```
 
