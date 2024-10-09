@@ -2,14 +2,7 @@
 
 **These contracts (produced with the help of unruggable) allow you to issue NFT subnames on an L2. Follow the instructions below.**
 
-Foundry consists of:
-
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
+Make sure you have foundary installed:
 
 https://book.getfoundry.sh/
 
