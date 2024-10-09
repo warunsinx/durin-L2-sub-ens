@@ -49,27 +49,15 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
    # NFTRegistrar contract deployment
    REGISTRY_ADDRESS=0x1234567890123456789012345678901234567890
    USD_ORACLE_ADDRESS=0x9876543210987654321098765432109876543210
-   MIN_CHARS=1
-   MAX_CHARS=42
-   MAX_FREE_REGISTRATIONS=7
    MIN_COMMITMENT_AGE=0
    MAX_COMMITMENT_AGE=120
-   MIN_REGISTRATION_DURATION=2592000
-   MAX_REGISTRATION_DURATION=15552000
-   CHAR_AMOUNTS="0 2029426686960 507356671740 126839167935 31709791983"
    ```
 
    Explanations:
 
    - `REGISTRY_ADDRESS`: Address of the NFTRegistry contract
    - `USD_ORACLE_ADDRESS`: Oracle address for USD/L2 currency conversion ([Chainlink Data Feeds](https://data.chain.link/feeds))
-   - `MIN_CHARS` and `MAX_CHARS`: Minimum and maximum characters allowed for names
-   - `MAX_FREE_REGISTRATIONS`: Free name limit per wallet
    - `MIN_COMMITMENT_AGE` and `MAX_COMMITMENT_AGE`: Lockup times (in seconds) to prevent multiple claims on the same name. The defaults are ok if you are unsure.
-   - `MIN_REGISTRATION_DURATION` and `MAX_REGISTRATION_DURATION`: Minimum and maximum duration a wallet can own a name (in seconds)
-   - `CHAR_AMOUNTS`: Pricing for names by length (in USD/second, 18 decimal precision). See the Notes at the bottom of the page for an in depth explanation.
-
-   Note: Except for commitment ages, these parameters can be modified later via the contract.
 
 5. **Deploy NFTRegistrar contract**
 
@@ -79,21 +67,37 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
 
    Note the deployed contract address.
 
-6. **Grant permissions to NFTRegistrar**
+6. **Set parameters and grant permissions on your deployed contracts**
 
-   Update the Registrar address in your `.env`:
+   Update the Registrar address and parameter values in your `.env`:
 
    ```env
+   # Set Parameters and grant permission
    REGISTRAR_ADDRESS=0x1234567890123456789012345678901234567890
+   MIN_CHARS=1
+   MAX_CHARS=42
+   MAX_FREE_REGISTRATIONS=7
+   MIN_REGISTRATION_DURATION=2592000
+   MAX_REGISTRATION_DURATION=15552000
+   CHAR_AMOUNTS=[0,2029426686960,507356671740,126839167935,31709791983]
    ```
 
    Then run:
 
    ```shell
-   bash deploy/grantPermission.sh
+   bash deploy/setParameters.sh
    ```
 
-   This grants the Registrar the ability to mint names on the Registry.
+   This grants the Registrar the ability to mint names on the Registry and sets pricing and name limits.
+
+   Explanations:
+
+   - `MIN_CHARS` and `MAX_CHARS`: Minimum and maximum characters allowed for names
+   - `MAX_FREE_REGISTRATIONS`: Free name limit per wallet
+   - `MIN_REGISTRATION_DURATION` and `MAX_REGISTRATION_DURATION`: Minimum and maximum duration a wallet can own a name (in seconds)
+   - `CHAR_AMOUNTS`: Pricing for names by length (in USD/second, 18 decimal precision). See the Notes at the bottom of the page for an in depth explanation.
+
+   Note: These parameters can be modified later via the contract on your L2 blockexplorer.
 
 7. **Connect base name to resolver and registry**
 

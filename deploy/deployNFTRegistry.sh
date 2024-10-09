@@ -19,21 +19,12 @@ forge build
 
 # Deploy the contract
 echo "Deploying $CONTRACT_NAME from $CONTRACT_FILE..."
-DEPLOYED_ADDRESS=$(ETHERSCAN_API_KEY=$ETHERSCAN_API_KEY forge create --rpc-url $RPC_URL \
+DEPLOYED_OUTPUT=$(ETHERSCAN_API_KEY=$ETHERSCAN_API_KEY forge create --rpc-url $RPC_URL \
              --private-key $PRIVATE_KEY \
              $CONTRACT_FILE:$CONTRACT_NAME \
 	         --verify \
 	         --legacy \
              --constructor-args "$CONTRACT_NAME" "$CONTRACT_SYMBOL" "$BASE_URI" \
-             --json | jq -r '.deployedTo')
+             --json)
 
-# Check deployment status and log the address
-if [ -z "$DEPLOYED_ADDRESS" ]; then
-    echo "Deployment failed. Please check the error messages above."
-    exit 1
-else
-    echo "NFTRegistry deployed successfully!"
-    echo "Registry address: $DEPLOYED_ADDRESS"
-fi
-
-echo "Deployment completed successfully!"
+echo "$DEPLOYED_OUTPUT"

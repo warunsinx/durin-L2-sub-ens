@@ -196,9 +196,11 @@ contract NFTRegistrar is Balances /* AccessControl */ {
     function renew(string memory label, uint256 duration) public payable {
         // make a tokenId from the label
         uint256 tokenId = uint256(keccak256(bytes(label)));
+        // make a labelhash from the label
+        bytes32 labelhash = keccak256(abi.encodePacked(label));
 
         // get the expiry data for tokenId
-        uint64 expiry = targetRegistry.getExpiry(tokenId);
+        uint64 expiry = targetRegistry.getExpiry(labelhash);
 
         // make sure only the owner of the label is the caller.
         if (msg.sender != targetRegistry.ownerOf(tokenId)) {
@@ -222,7 +224,7 @@ contract NFTRegistrar is Balances /* AccessControl */ {
         }
 
         // use setExpiry to renew the label
-        targetRegistry.setExpiry(tokenId, uint64(expiry + duration));
+        targetRegistry.setExpiry(labelhash, uint64(expiry + duration));
 
         // If more Eth was sent than the price then return the difference.
         if (msg.value > price) {
