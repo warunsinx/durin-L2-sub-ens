@@ -10,10 +10,12 @@ https://book.getfoundry.sh/
 ### Step 1: Clone this repo
 
 ```shell
-$ git clone (this repo)
+git clone git@github.com:resolverworks/durin-nft-contracts.git
 ```
 
-### Step 2: Rename example.env to .env and change the variables under Deploy NFTRegistry contract
+### Step 2: Rename example.env to .env
+
+### AND change the variables under Deploy NFTRegistry contract
 
 ```txt
 # Deploy NFTRegistry contract
