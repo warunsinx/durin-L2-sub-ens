@@ -17,19 +17,19 @@ fi
 CONTRACT_NAME="NFTRegistry"
 FUNCTION_SIGNATURE="addRegistrar(address)"
 
-# echo "Granting REGISTRAR_ROLE to the Registrar..."
-# cast send $REGISTRY_ADDRESS \
-#     "$FUNCTION_SIGNATURE" \
-#     $REGISTRAR_ADDRESS \
-#     --rpc-url $RPC_URL \
-#     --private-key $PRIVATE_KEY
+echo "Granting REGISTRAR_ROLE to the Registrar..."
+cast send $REGISTRY_ADDRESS \
+    "$FUNCTION_SIGNATURE" \
+    $REGISTRAR_ADDRESS \
+    --rpc-url $RPC_URL \
+    --private-key $PRIVATE_KEY
 
-# # Set register parameters
-# echo "Setting register parameters..."
-# cast send $REGISTRAR_ADDRESS \
-#     "setParams(uint64,uint64,uint16,uint16)" \
-#     $MIN_REGISTRATION_DURATION $MAX_REGISTRATION_DURATION $MIN_CHARS $MAX_CHARS \
-#     --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+# Set register parameters
+echo "Setting register parameters..."
+cast send $REGISTRAR_ADDRESS \
+    "setParams(uint64,uint64,uint16,uint16)" \
+    $MIN_REGISTRATION_DURATION $MAX_REGISTRATION_DURATION $MIN_CHARS $MAX_CHARS \
+    --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 
 echo "Setting name pricing..."
 FORMATTED_AMOUNTS=$(echo $CHAR_AMOUNTS | sed 's/ /,/g')
@@ -39,9 +39,9 @@ cast send $REGISTRAR_ADDRESS \
     "$CHAR_AMOUNTS" \
     --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 
-# # Set max free registrations
-# echo "Setting max free registrations..."
-# cast send $REGISTRAR_ADDRESS \
-#     "setMaxFreeRegistrations(uint256)" \
-#     $MAX_FREE_REGISTRATIONS \
-#     --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+# Set max free registrations
+echo "Setting max free registrations..."
+cast send $REGISTRAR_ADDRESS \
+    "setMaxFreeRegistrations(uint256)" \
+    $MAX_FREE_REGISTRATIONS \
+    --rpc-url $RPC_URL --private-key $PRIVATE_KEY
