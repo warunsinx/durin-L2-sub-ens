@@ -27,7 +27,7 @@ cast send $REGISTRY_ADDRESS \
 # Set register parameters
 echo "Setting register parameters..."
 cast send $REGISTRAR_ADDRESS \
-    "setParams(uint64,uint64,uint16,uint16)" \
+    "setParams(uint256,uint256,uint16,uint16)" \
     $MIN_REGISTRATION_DURATION $MAX_REGISTRATION_DURATION $MIN_CHARS $MAX_CHARS \
     --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 

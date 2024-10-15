@@ -33,7 +33,7 @@ contract NFTRegistrar is Balances /* AccessControl */ {
     using Address for address payable;
     using BytesUtilsSub for bytes;
 
-    uint64 private constant MAX_EXPIRY = type(uint64).max;
+    uint256 private constant MAX_EXPIRY = type(uint256).max;
     uint256 public immutable minCommitmentAge;
     uint256 public immutable maxCommitmentAge;
 
@@ -44,8 +44,8 @@ contract NFTRegistrar is Balances /* AccessControl */ {
     IAggregatorInterface public usdOracle;
 
     // The pricing and character requirements for registrations.
-    uint64 public minRegistrationDuration;
-    uint64 public maxRegistrationDuration;
+    uint256 public minRegistrationDuration;
+    uint256 public maxRegistrationDuration;
     uint16 public minChars;
     uint16 public maxChars;
     uint256[] public charAmounts;
@@ -182,7 +182,7 @@ contract NFTRegistrar is Balances /* AccessControl */ {
         targetRegistry.register(
             label,
             owner,
-            uint64(block.timestamp + duration)
+            uint256(block.timestamp + duration)
         );
 
         // Because the oracle can return a slightly different value then what was estimated
@@ -200,7 +200,7 @@ contract NFTRegistrar is Balances /* AccessControl */ {
         bytes32 labelhash = keccak256(abi.encodePacked(label));
 
         // get the expiry data for tokenId
-        uint64 expiry = targetRegistry.getExpiry(labelhash);
+        uint256 expiry = targetRegistry.getExpiry(labelhash);
 
         // make sure only the owner of the label is the caller.
         if (msg.sender != targetRegistry.ownerOf(tokenId)) {
@@ -311,8 +311,8 @@ contract NFTRegistrar is Balances /* AccessControl */ {
      */
 
     function setParams(
-        uint64 _minRegistrationDuration,
-        uint64 _maxRegistrationDuration,
+        uint256 _minRegistrationDuration,
+        uint256 _maxRegistrationDuration,
         uint16 _minChars,
         uint16 _maxChars
     ) public onlyRole(ADMIN_ROLE) {
