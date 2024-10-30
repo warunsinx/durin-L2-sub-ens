@@ -17,15 +17,10 @@ contract NFTRegistry is ERC721, AccessControl {
     }
 
     // ownership logic
-    function _isExpired(bytes32 labelhash) internal view returns (bool) {
-        return _expiries[labelhash] < block.timestamp;
-    }
     function _ownerOf(
         uint256 tokenId
     ) internal view override(ERC721) returns (address owner) {
-        owner = _isExpired(bytes32(tokenId))
-            ? address(0)
-            : super._ownerOf(tokenId);
+        owner = super._ownerOf(tokenId);
     }
     modifier onlyTokenOperator(bytes32 labelhash) {
         address owner = _ownerOf(uint256(labelhash));
@@ -37,7 +32,6 @@ contract NFTRegistry is ERC721, AccessControl {
 
     // Errors
     error Unauthorized();
-    error TokenExpired(bytes32 labelhash, uint64 expiry);
 
     // Events
     event Registered(string label, address owner);
@@ -65,7 +59,6 @@ contract NFTRegistry is ERC721, AccessControl {
     // Properties
     uint256 public totalSupply;
     string public baseUri;
-    mapping(bytes32 labelhash => uint256) _expiries;
     mapping(bytes32 labelhash => mapping(string key => string)) _texts;
     mapping(bytes32 labelhash => mapping(uint256 coinType => bytes)) _addrs;
     mapping(bytes32 labelhash => bytes) _chashes;
@@ -110,15 +103,12 @@ contract NFTRegistry is ERC721, AccessControl {
     function register(
         string calldata label,
         address owner,
-        uint256 expiry
     ) external onlyRole(REGISTRAR_ROLE) {
         bytes32 labelhash = keccak256(abi.encodePacked(label));
         uint256 tokenId = uint256(labelhash);
         // This will fail if the node is already registered
         _safeMint(owner, tokenId);
-        _expiries[labelhash] = expiry;
         _labels[labelhash] = label;
-        _setAddr(labelhash, COIN_TYPE_ETH, abi.encodePacked(owner));
         totalSupply++;
         emit Registered(label, owner);
     }
@@ -144,29 +134,20 @@ contract NFTRegistry is ERC721, AccessControl {
         bytes32 labelhash,
         uint256 cointype
     ) internal view returns (bytes memory) {
-        return
-            _isExpired(labelhash) ? new bytes(0) : _addrs[labelhash][cointype];
+        return _addrs[labelhash][cointype];
     }
 
     function text(
         bytes32 labelhash,
         string calldata key
     ) external view returns (string memory) {
-        return _isExpired(labelhash) ? "" : _texts[labelhash][key];
+        return _texts[labelhash][key];
     }
 
     function contenthash(
         bytes32 labelhash
     ) external view returns (bytes memory) {
-        return _isExpired(labelhash) ? new bytes(0) : _chashes[labelhash];
-    }
-
-    function getExpiry(bytes32 labelhash) public view returns (uint256 expiry) {
-        return _isExpired(labelhash) ? 0 : _expiries[labelhash];
-    }
-
-    function available(bytes32 labelhash) external view returns (bool) {
-        return _isExpired(labelhash);
+        return _chashes[labelhash];
     }
 
     // Utils to get a label from its labelhash
@@ -225,13 +206,6 @@ contract NFTRegistry is ERC721, AccessControl {
     function _setContenthash(bytes32 labelhash, bytes calldata value) internal {
         _chashes[labelhash] = value;
         emit ContenthashChanged(labelhash, value);
-    }
-
-    function setExpiry(
-        bytes32 labelhash,
-        uint64 expiry
-    ) public onlyRole(REGISTRAR_ROLE) {
-        _expiries[labelhash] = expiry;
     }
 
     function setRecords(

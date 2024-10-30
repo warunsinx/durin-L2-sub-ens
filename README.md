@@ -58,7 +58,6 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
 
    - `REGISTRY_ADDRESS`: Address of the NFTRegistry contract
    - `USD_ORACLE_ADDRESS`: Oracle address for USD/L2 currency conversion ([Chainlink Data Feeds](https://data.chain.link/feeds))
-   - `MIN_COMMITMENT_AGE` and `MAX_COMMITMENT_AGE`: Lockup times (in seconds) to prevent multiple claims on the same name. The defaults are ok if you are unsure.
 
 5. **Deploy NFTRegistrar contract**
 
@@ -75,12 +74,7 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
    ```env
    # Set Parameters and grant permission
    REGISTRAR_ADDRESS=0x1234567890123456789012345678901234567890
-   MIN_CHARS=1
-   MAX_CHARS=42
-   MAX_FREE_REGISTRATIONS=7
-   MIN_REGISTRATION_DURATION=15778800
-   MAX_REGISTRATION_DURATION=63115200
-   CHAR_AMOUNTS=[0,2029426686960,507356671740,126839167935,31709791983]
+   NAME_PRICE=0
    ```
 
    Then run:
@@ -93,10 +87,7 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
 
    Explanations:
 
-   - `MIN_CHARS` and `MAX_CHARS`: Minimum and maximum characters allowed for names
-   - `MAX_FREE_REGISTRATIONS`: Free name limit per wallet
-   - `MIN_REGISTRATION_DURATION` and `MAX_REGISTRATION_DURATION`: Minimum and maximum duration a wallet can own a name (in seconds)
-   - `CHAR_AMOUNTS`: Pricing for names by length (in USD/second, 18 decimal precision). See the Notes at the bottom of the page for an in depth explanation.
+   - `NAME_PRICE`: Pricing for a name in USD.
 
    Note: These parameters can be modified later via the contract on your L2 blockexplorer.
 
@@ -107,28 +98,3 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
 ## Usage
 
 You can now mint names via the Registrar. Check out our example frontend or build your own.
-
-## Notes
-
-### CHAR_AMOUNTS Calculation
-
-CHAR_AMOUNTS defines the price for different name lengths in USD per second, with 18 decimal precision.
-
-Steps:
-
-Set the yearly price in USD for each name length.  
-Convert it to a per-second price.  
-Multiply by 10^18 for precision.  
-Example for 1-character names:
-
-Yearly price: $1  
-Per-second price: $1 / (365 _ 24 _ 60 _ 60) ≈ $0.0000000317098  
-18 decimal precision: 0.0000000317098 _ 10^18 = 31709791983  
-The array in this example corresponds to:
-
-1-character names: $1/year = 31709791983  
-2-character names: $4/year = 126839167935  
-3-character names: $16/year = 507356671740  
-4-character names: $64/year = 2029426686960  
-All other names: free  
-Adjust the values to fit your pricing structure.
