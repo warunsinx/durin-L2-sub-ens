@@ -1,6 +1,4 @@
-/// @author clowes.eth
-/// @author raffy.eth
-/// @company Unruggable
+/// @author Unruggable & darianb.eth
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -17,11 +15,6 @@ contract NFTRegistry is ERC721, AccessControl {
     }
 
     // ownership logic
-    function _ownerOf(
-        uint256 tokenId
-    ) internal view override(ERC721) returns (address owner) {
-        owner = super._ownerOf(tokenId);
-    }
     modifier onlyTokenOperator(bytes32 labelhash) {
         address owner = _ownerOf(uint256(labelhash));
         if (owner != msg.sender && !isApprovedForAll(owner, msg.sender)) {
@@ -102,7 +95,7 @@ contract NFTRegistry is ERC721, AccessControl {
 
     function register(
         string calldata label,
-        address owner,
+        address owner
     ) external onlyRole(REGISTRAR_ROLE) {
         bytes32 labelhash = keccak256(abi.encodePacked(label));
         uint256 tokenId = uint256(labelhash);
@@ -118,7 +111,6 @@ contract NFTRegistry is ERC721, AccessControl {
     //
 
     // Record level
-
     function addr(bytes32 labelhash) public view returns (address) {
         return address(uint160(bytes20(_addr(labelhash, COIN_TYPE_ETH))));
     }
@@ -127,13 +119,6 @@ contract NFTRegistry is ERC721, AccessControl {
         bytes32 labelhash,
         uint256 cointype
     ) external view returns (bytes memory) {
-        return _addr(labelhash, cointype);
-    }
-
-    function _addr(
-        bytes32 labelhash,
-        uint256 cointype
-    ) internal view returns (bytes memory) {
         return _addrs[labelhash][cointype];
     }
 
@@ -170,13 +155,6 @@ contract NFTRegistry is ERC721, AccessControl {
         uint256 coinType,
         bytes calldata value
     ) external onlyTokenOperator(labelhash) {
-        _setAddr(labelhash, coinType, value);
-    }
-    function _setAddr(
-        bytes32 labelhash,
-        uint256 coinType,
-        bytes memory value
-    ) internal {
         _addrs[labelhash][coinType] = value;
         emit AddrChanged(labelhash, coinType, value);
     }
@@ -186,13 +164,6 @@ contract NFTRegistry is ERC721, AccessControl {
         string calldata key,
         string calldata value
     ) external onlyTokenOperator(labelhash) {
-        _setText(labelhash, key, value);
-    }
-    function _setText(
-        bytes32 labelhash,
-        string calldata key,
-        string calldata value
-    ) internal {
         _texts[labelhash][key] = value;
         emit TextChanged(labelhash, key, value);
     }
@@ -201,9 +172,6 @@ contract NFTRegistry is ERC721, AccessControl {
         bytes32 labelhash,
         bytes calldata value
     ) external onlyTokenOperator(labelhash) {
-        _setContenthash(labelhash, value);
-    }
-    function _setContenthash(bytes32 labelhash, bytes calldata value) internal {
         _chashes[labelhash] = value;
         emit ContenthashChanged(labelhash, value);
     }
@@ -215,13 +183,13 @@ contract NFTRegistry is ERC721, AccessControl {
         bytes[] calldata chash
     ) external onlyTokenOperator(labelhash) {
         for (uint256 i; i < texts.length; i += 1) {
-            _setText(labelhash, texts[i].key, texts[i].value);
+            setText(labelhash, texts[i].key, texts[i].value);
         }
         for (uint256 i; i < addrs.length; i += 1) {
-            _setAddr(labelhash, addrs[i].coinType, addrs[i].value);
+            setAddr(labelhash, addrs[i].coinType, addrs[i].value);
         }
         if (chash.length == 1) {
-            _setContenthash(labelhash, chash[0]);
+            setContenthash(labelhash, chash[0]);
         }
     }
 }

@@ -4,8 +4,7 @@
 source .env
 
 # Check if required variables are set
-if [ -z "$ETHERSCAN_API_KEY" ] || [ -z "$RPC_URL" ] || [ -z "$PRIVATE_KEY" ] || [ -z "$REGISTRY_ADDRESS" ] || \
-   [ -z "$MIN_COMMITMENT_AGE" ] || [ -z "$MAX_COMMITMENT_AGE" ] || [ -z "$USD_ORACLE_ADDRESS" ]; then
+if [ -z "$ETHERSCAN_API_KEY" ] || [ -z "$RPC_URL" ] || [ -z "$PRIVATE_KEY" ] || [ -z "$REGISTRY_ADDRESS" ]; then
     echo "Error: Missing required environment variables. Please check your .env file."
     exit 1
 fi
@@ -25,7 +24,7 @@ DEPLOYED_OUTPUT=$(ETHERSCAN_API_KEY=$ETHERSCAN_API_KEY forge create --rpc-url $R
 	      --verify \
 	      --legacy \
              $CONTRACT_FILE:$CONTRACT_NAME \
-             --constructor-args $REGISTRY_ADDRESS $MIN_COMMITMENT_AGE $MAX_COMMITMENT_AGE $USD_ORACLE_ADDRESS \
+             --constructor-args $REGISTRY_ADDRESS \
              --json)
 
 echo "$DEPLOYED_OUTPUT"
