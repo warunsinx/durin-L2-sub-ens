@@ -15,6 +15,7 @@ fi
 echo "Granting REGISTRAR_ROLE to the Registrar..."
 cast send $REGISTRY_ADDRESS \
     "addRegistrar(address)" \
+    "$REGISTRAR_ADDRESS" \
     --rpc-url $RPC_URL \
     --private-key $PRIVATE_KEY
 
@@ -23,6 +24,9 @@ echo "Setting price..."
 FORMATTED_AMOUNTS=$(echo $CHAR_AMOUNTS | sed 's/ /,/g')
 echo $FORMATTED_AMOUNTS
 cast send $REGISTRAR_ADDRESS \
-    "setPrice(uint256[])" \
+    "setPrice(uint256)" \
     "$NAME_PRICE" \
     --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+
+
+echo "All parameters set successfully!"

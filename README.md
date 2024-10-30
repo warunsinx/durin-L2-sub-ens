@@ -49,15 +49,11 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
    ```env
    # NFTRegistrar contract deployment
    REGISTRY_ADDRESS=0x1234567890123456789012345678901234567890
-   USD_ORACLE_ADDRESS=0x9876543210987654321098765432109876543210
-   MIN_COMMITMENT_AGE=0
-   MAX_COMMITMENT_AGE=120
    ```
 
    Explanations:
 
    - `REGISTRY_ADDRESS`: Address of the NFTRegistry contract
-   - `USD_ORACLE_ADDRESS`: Oracle address for USD/L2 currency conversion ([Chainlink Data Feeds](https://data.chain.link/feeds))
 
 5. **Deploy NFTRegistrar contract**
 

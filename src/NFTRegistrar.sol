@@ -8,11 +8,10 @@ import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {INFTRegistry} from "./INFTRegistry.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
-
 error InsufficientValue();
 error ERC721NonexistentToken(uint256 tokenId);
 
-contract NFTRegistrar is  AccessControl  {
+contract NFTRegistrar is AccessControl {
     using StringUtils for string;
     using Address for address payable;
     using BytesUtilsSub for bytes;
@@ -65,37 +64,27 @@ contract NFTRegistrar is  AccessControl  {
     }
 
     // a register function that uses mint to register a label
-    function register(
-        string memory label,
-        address owner,
-    ) public payable {
-
+    function register(string memory label, address owner) public payable {
         // Check to make sure the caller sent enough Eth.
         if (msg.value < namePrice) {
             revert InsufficientValue();
         }
 
         // use setLabel to register the label
-        targetRegistry.register(
-            label,
-            owner
-        );
+        targetRegistry.register(label, owner);
 
         // Because the oracle can return a slightly different value then what was estimated
         // we can overestimate the price and then return any difference.
-        if (msg.value > price) {
-            payable(msg.sender).sendValue(msg.value - price);
+        if (msg.value > namePrice) {
+            payable(msg.sender).sendValue(msg.value - namePrice);
         }
     }
 
-  
     /**
      * @notice Set a price for a name
      * @param price The price in native currency
      */
-    function setPrice(
-        uint256 price
-    ) public onlyRole(ADMIN_ROLE) {
+    function setPrice(uint256 price) public onlyRole(ADMIN_ROLE) {
         namePrice = price;
     }
 

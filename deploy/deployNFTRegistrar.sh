@@ -28,7 +28,3 @@ DEPLOYED_OUTPUT=$(ETHERSCAN_API_KEY=$ETHERSCAN_API_KEY forge create --rpc-url $R
              --json)
 
 echo "$DEPLOYED_OUTPUT"
-
-
-
-echo "All parameters set successfully!"

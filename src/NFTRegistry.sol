@@ -112,13 +112,13 @@ contract NFTRegistry is ERC721, AccessControl {
 
     // Record level
     function addr(bytes32 labelhash) public view returns (address) {
-        return address(uint160(bytes20(_addr(labelhash, COIN_TYPE_ETH))));
+        return address(uint160(bytes20(addr(labelhash, COIN_TYPE_ETH))));
     }
 
     function addr(
         bytes32 labelhash,
         uint256 cointype
-    ) external view returns (bytes memory) {
+    ) public view returns (bytes memory) {
         return _addrs[labelhash][cointype];
     }
 
@@ -150,46 +150,52 @@ contract NFTRegistry is ERC721, AccessControl {
     }
 
     // Record level
+    // Internal setters
     function setAddr(
         bytes32 labelhash,
         uint256 coinType,
-        bytes calldata value
-    ) external onlyTokenOperator(labelhash) {
+        bytes memory value
+    ) public {
         _addrs[labelhash][coinType] = value;
         emit AddrChanged(labelhash, coinType, value);
     }
 
     function setText(
         bytes32 labelhash,
-        string calldata key,
-        string calldata value
-    ) external onlyTokenOperator(labelhash) {
+        string memory key,
+        string memory value
+    ) public {
         _texts[labelhash][key] = value;
         emit TextChanged(labelhash, key, value);
     }
 
-    function setContenthash(
-        bytes32 labelhash,
-        bytes calldata value
-    ) external onlyTokenOperator(labelhash) {
+    function setContenthash(bytes32 labelhash, bytes memory value) public {
         _chashes[labelhash] = value;
         emit ContenthashChanged(labelhash, value);
     }
 
+    // Convenient multicall to set records
     function setRecords(
         bytes32 labelhash,
         Text[] calldata texts,
         Addr[] calldata addrs,
-        bytes[] calldata chash
+        bytes calldata chash
     ) external onlyTokenOperator(labelhash) {
-        for (uint256 i; i < texts.length; i += 1) {
+        uint256 i;
+
+        // Set texts
+        for (i = 0; i < texts.length; i++) {
             setText(labelhash, texts[i].key, texts[i].value);
         }
-        for (uint256 i; i < addrs.length; i += 1) {
+
+        // Set addresses
+        for (i = 0; i < addrs.length; i++) {
             setAddr(labelhash, addrs[i].coinType, addrs[i].value);
         }
-        if (chash.length == 1) {
-            setContenthash(labelhash, chash[0]);
+
+        // Set content hash if provided (non-empty)
+        if (chash.length > 0) {
+            setContenthash(labelhash, chash);
         }
     }
 }
