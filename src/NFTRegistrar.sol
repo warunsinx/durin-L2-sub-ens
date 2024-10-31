@@ -17,6 +17,12 @@ contract NFTRegistrar is AccessControl {
     using BytesUtilsSub for bytes;
 
     event AddressWithdrew(address indexed _address, uint256 indexed amount);
+    event PriceUpdated(uint256 oldPrice, uint256 newPrice);
+    event NameRegistered(
+        string indexed label,
+        address indexed owner,
+        uint256 price
+    );
 
     // Admin Role for withdrawing funds
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -31,6 +37,7 @@ contract NFTRegistrar is AccessControl {
         targetRegistry = _registry;
 
         // Grant the contract deployer the admin role
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(ADMIN_ROLE, msg.sender);
     }
 
@@ -73,7 +80,6 @@ contract NFTRegistrar is AccessControl {
         // use setLabel to register the label
         targetRegistry.register(label, owner);
 
-        // Because the oracle can return a slightly different value then what was estimated
         // we can overestimate the price and then return any difference.
         if (msg.value > namePrice) {
             payable(msg.sender).sendValue(msg.value - namePrice);
@@ -85,7 +91,9 @@ contract NFTRegistrar is AccessControl {
      * @param price The price in native currency
      */
     function setPrice(uint256 price) public onlyRole(ADMIN_ROLE) {
+        uint256 oldPrice = namePrice;
         namePrice = price;
+        emit PriceUpdated(oldPrice, price);
     }
 
     /**
