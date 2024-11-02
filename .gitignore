@@ -14,7 +14,4 @@ docs/
 .env
 
 # misc
-.gitmodules
-foundary.toml
 .github/
-lib/
