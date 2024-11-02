@@ -17,3 +17,4 @@ docs/
 .gitmodules
 foundary.toml
 .github/
+lib/
