@@ -123,3 +123,17 @@ You can now mint names via the Registrar. Check out our example frontend or buil
 ````
 
 alter your env for each chain you release on. As long as you don't change your salt they will all have the same address
+
+3. ** Deploy Registry using Factory**!SECTION
+   add your factory address to your env
+
+   ```env
+   # Deploy NFTRegistryFactory contract
+   FACTORY_ADDRESS=0x1234567890123456789012345678901234567890
+   ```
+
+   Run the bash script to deploy a registry
+
+   ```bash
+   bash deploy/DeployNFTRegistryWithFactory.sh
+   ```
