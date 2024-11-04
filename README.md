@@ -94,3 +94,32 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
 ## Usage
 
 You can now mint names via the Registrar. Check out our example frontend or build your own.
+
+## Deploy NFTRegistryFactory
+
+1. **Set up environment variables**
+
+   Change your env to reflect the chain you want to deploy on
+
+   ```env
+   # NFTRegistry contract deployment
+   RPC_URL=https://your-rpc-url-here
+   ETHERSCAN_API_KEY=your-etherscan-api-key
+   ```
+
+   and set your salt if you haven't
+
+   ```env
+   # Deploy NFTRegistryFactory contract
+   SALT="my_salt"
+   ```
+
+````
+
+2. **Run deploy script **
+
+ ```shell
+   bash deploy/DeployNFTRegistryFactory.sh
+````
+
+alter your env for each chain you release on. As long as you don't change your salt they will all have the same address
