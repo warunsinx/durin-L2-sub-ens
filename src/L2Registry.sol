@@ -1,13 +1,23 @@
-/// @author Unruggable & darianb.eth
+// ***********************************************
+// ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▄▄▄▖▗▄▖ ▗▖  ▗▖▗▄▄▄▖
+// ▐▛▚▖▐▌▐▌ ▐▌▐▛▚▞▜▌▐▌   ▐▌     █ ▐▌ ▐▌▐▛▚▖▐▌▐▌
+// ▐▌ ▝▜▌▐▛▀▜▌▐▌  ▐▌▐▛▀▀▘ ▝▀▚▖  █ ▐▌ ▐▌▐▌ ▝▜▌▐▛▀▀▘
+// ▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌▐▙▄▄▖▗▄▄▞▘  █ ▝▚▄▞▘▐▌  ▐▌▐▙▄▄▖
+// ***********************************************
+
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity 0.8.20;
+
+/// @author darianb.eth + Unruggable
+/// @custom:project Durin
+/// @custom:company NameStone
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
 /// @title Registry/Resolver All-in-one (for Layer 2)
 /// @dev The resolution functions works with standard selectors, switching out node for labelhash
-contract NFTRegistry is ERC721, AccessControl {
+contract L2Registry is ERC721, AccessControl {
     function supportsInterface(
         bytes4 x
     ) public view override(ERC721, AccessControl) returns (bool) {
@@ -84,7 +94,7 @@ contract NFTRegistry is ERC721, AccessControl {
     }
 
     /**
-     * @dev Removes a registrar from the NftRegistry contract.
+     * @dev Removes a registrar from the L2Registry contract.
      * Only a `address with the ADMIN_ROLE can call this function.
      *
      * @param registrar The address of the registrar to be removed.

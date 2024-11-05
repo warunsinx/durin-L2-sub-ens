@@ -1,17 +1,27 @@
-/// @author Unruggable & darianb.eth
+// ***********************************************
+// ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▄▄▄▖▗▄▖ ▗▖  ▗▖▗▄▄▄▖
+// ▐▛▚▖▐▌▐▌ ▐▌▐▛▚▞▜▌▐▌   ▐▌     █ ▐▌ ▐▌▐▛▚▖▐▌▐▌
+// ▐▌ ▝▜▌▐▛▀▜▌▐▌  ▐▌▐▛▀▀▘ ▝▀▚▖  █ ▐▌ ▐▌▐▌ ▝▜▌▐▛▀▀▘
+// ▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌▐▙▄▄▖▗▄▄▞▘  █ ▝▚▄▞▘▐▌  ▐▌▐▙▄▄▖
+// ***********************************************
+
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
+
+/// @author darianb.eth
+/// @custom:project Durin
+/// @custom:company NameStone
 
 import {StringUtils} from "./utils/StringUtils.sol";
 import {BytesUtilsSub} from "./utils/BytesUtilsSub.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
-import {INFTRegistry} from "./INFTRegistry.sol";
+import {IL2Registry} from "./IL2Registry.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
 error InsufficientValue();
 error ERC721NonexistentToken(uint256 tokenId);
 
-contract NFTRegistrar is AccessControl {
+contract L2Registrar is AccessControl {
     using StringUtils for string;
     using Address for address payable;
     using BytesUtilsSub for bytes;
@@ -28,12 +38,12 @@ contract NFTRegistrar is AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
     // target registry
-    INFTRegistry public immutable targetRegistry;
+    IL2Registry public immutable targetRegistry;
 
     // The price for registrations.
     uint256 public namePrice;
 
-    constructor(INFTRegistry _registry) {
+    constructor(IL2Registry _registry) {
         targetRegistry = _registry;
 
         // Grant the contract deployer the admin role

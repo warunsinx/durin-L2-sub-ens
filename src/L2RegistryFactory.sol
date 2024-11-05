@@ -1,9 +1,20 @@
+// ***********************************************
+// ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▄▄▄▖▗▄▖ ▗▖  ▗▖▗▄▄▄▖
+// ▐▛▚▖▐▌▐▌ ▐▌▐▛▚▞▜▌▐▌   ▐▌     █ ▐▌ ▐▌▐▛▚▖▐▌▐▌
+// ▐▌ ▝▜▌▐▛▀▜▌▐▌  ▐▌▐▛▀▀▘ ▝▀▚▖  █ ▐▌ ▐▌▐▌ ▝▜▌▐▛▀▀▘
+// ▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌▐▙▄▄▖▗▄▄▞▘  █ ▝▚▄▞▘▐▌  ▐▌▐▙▄▄▖
+// ***********************************************
+
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity 0.8.20;
 
-import "./NFTRegistry.sol";
+/// @author darianb.eth + Unruggable
+/// @custom:project Durin
+/// @custom:company NameStone
 
-contract NFTRegistryFactory {
+import "./L2Registry.sol";
+
+contract L2RegistryFactory {
     event RegistryDeployed(
         address registryAddress,
         string name,
@@ -17,8 +28,8 @@ contract NFTRegistryFactory {
         string memory symbol,
         string memory baseUri
     ) public returns (address) {
-        // Deploy new NFTRegistry using CREATE
-        NFTRegistry registry = new NFTRegistry(name, symbol, baseUri);
+        // Deploy new L2Registry using CREATE
+        L2Registry registry = new L2Registry(name, symbol, baseUri);
 
         // Grant admin roles to the caller
         registry.grantRole(registry.DEFAULT_ADMIN_ROLE(), msg.sender);

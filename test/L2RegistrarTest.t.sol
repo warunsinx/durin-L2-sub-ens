@@ -2,12 +2,12 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
-import "../src/NFTRegistry.sol";
-import "../src/NFTRegistrar.sol";
+import "../src/L2Registry.sol";
+import "../src/L2Registrar.sol";
 
-contract NFTRegistrarTest is Test {
-    NFTRegistry public registry;
-    NFTRegistrar public registrar;
+contract L2RegistrarTest is Test {
+    L2Registry public registry;
+    L2Registrar public registrar;
 
     address public admin = address(1);
     address public user1 = address(2);
@@ -22,8 +22,8 @@ contract NFTRegistrarTest is Test {
 
     function setUp() public {
         vm.startPrank(admin);
-        registry = new NFTRegistry("TestNames", "TEST", "https://test.uri/");
-        registrar = new NFTRegistrar(INFTRegistry(address(registry)));
+        registry = new L2Registry("TestNames", "TEST", "https://test.uri/");
+        registrar = new L2Registrar(IL2Registry(address(registry)));
         registry.addRegistrar(address(registrar));
         vm.stopPrank();
     }

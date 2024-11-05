@@ -1,12 +1,28 @@
-# Durin NFT Contracts
+# ENS Subnames on L2
 
-These contracts, developed with Unruggable, allow you to issue NFT subnames on an L2 network. Follow the steps below to set up and deploy the contracts.
+There is no official way to build ENS subnames on L2, but this repo implements one possible approach.
 
-## Prerequisites
+## Archicture
 
-Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is installed.
+ENS resolution always starts on L1, so we use [CCIP Read](https://eips.ethereum.org/EIPS/eip-3668) to defer the resolution to L2. We include the target L2 registry info in the offchain lookup, which is stored in the L1 resolver contract, so the gateway knows where to forward the request.
 
-## Setup and Deployment
+Since we cannot easily determine the ownership of a L1 .eth name (e.g., name.eth) from L2, we allow anyone to create a registry on L2 via a factory contract. This means multiple L2 registries can exist for the same .eth name. This is acceptable because only the owner of the .eth name on L1 can set the target L2 registry for that name, making it canonical.
+
+![diagram](https://github.com/user-attachments/assets/528cf959-82e7-4d1b-8574-3c5de942af97)
+
+## Contracts
+
+This repo includes the L2 registry contracts.
+
+- [L2RegistryFactory](./src/L2RegistryFactory.sol): L2 contract for easily creating new registries.
+- [L2Registry](./src/L2Registry.sol): L2 contract that stores subnames as ERC721 NFTs.
+  It's responsible for storing subname data like address and text records.
+- [L2Registrar](./src/L2Registrar.sol): L2 contract that has access to register names to the L2Registry. It's a separate contract because it's most likely to be customized, and you may want to have multiple registrars for the same registry.
+
+## Deploy Registrar
+
+Below are the steps to deploy the registrar.
+The other steps to deploy L2 subnames can be found on [our frontend site] Or Manual setup readme
 
 1. **Clone the repository**
 
@@ -20,12 +36,15 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
    Copy `example.env` to `.env` and update the following values:
 
    ```env
-   # NFTRegistry contract deployment
+   # Required to Deploy Any Contract
    RPC_URL=https://your-rpc-url-here
-   ETHERSCAN_API_KEY=your-etherscan-api-key
    PRIVATE_KEY=your-private-key-here
-   BASE_URI=https://your-base-uri.com/nft/
+   BASE_URI=https://your-base-uri.com/
+   ETHERSCAN_API_KEY=your-etherscan-api-key-here
    CONTRACT_SYMBOL=your-contract-symbol-here
+
+   # Required to Deploy L2Registrar contract
+   REGISTRY_ADDRESS=0x1234567890123456789012345678901234567890
    ```
 
    - RPC_URL: RPC endpoint for your L2 (e.g., Alchemy or Infura)
@@ -33,37 +52,17 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
    - PRIVATE_KEY: The private key to you wallet with enough L2 funds to deploy contracts
    - BASE_URI: URL for your NFT metadata (modifiable later via setBaseURI)
    - CONTRACT_SYMBOL: Symbol for your NFT collection
+   - `REGISTRY_ADDRESS`: Address of the L2Registry contract
 
-3. **Deploy NFTRegistry contract**
-
-   ```shell
-   bash deploy/deployNFTRegistry.sh
-   ```
-
-   Take note of the deployed contract address.
-
-4. **Update .env for NFTRegistrar deployment**
-
-   Update the following values on your `.env` file:
-
-   ```env
-   # NFTRegistrar contract deployment
-   REGISTRY_ADDRESS=0x1234567890123456789012345678901234567890
-   ```
-
-   Explanations:
-
-   - `REGISTRY_ADDRESS`: Address of the NFTRegistry contract
-
-5. **Deploy NFTRegistrar contract**
+3. **Deploy L2Registrar contract**
 
    ```shell
-   bash deploy/deployNFTRegistrar.sh
+   bash deploy/deployL2Registrar.sh
    ```
 
    Note the deployed contract address.
 
-6. **Set parameters and grant permissions on your deployed contracts**
+4. **Set parameters and grant permissions on your deployed contracts**
 
    Update the Registrar address and parameter values in your `.env`:
 
@@ -86,54 +85,3 @@ Ensure [Foundry](https://book.getfoundry.sh/getting-started/installation) is ins
    - `NAME_PRICE`: Pricing for a name in USD.
 
    Note: These parameters can be modified later via the contract on your L2 blockexplorer.
-
-7. **Connect base name to resolver and registry**
-
-   (Instructions coming soon)
-
-## Usage
-
-You can now mint names via the Registrar. Check out our example frontend or build your own.
-
-## Deploy NFTRegistryFactory
-
-1. **Set up environment variables**
-
-   Change your env to reflect the chain you want to deploy on
-
-   ```env
-   # NFTRegistry contract deployment
-   RPC_URL=https://your-rpc-url-here
-   ETHERSCAN_API_KEY=your-etherscan-api-key
-   ```
-
-   and set your salt if you haven't
-
-   ```env
-   # Deploy NFTRegistryFactory contract
-   SALT="my_salt"
-   ```
-
-````
-
-2. **Run deploy script **
-
- ```shell
-   bash deploy/DeployNFTRegistryFactory.sh
-````
-
-alter your env for each chain you release on. As long as you don't change your salt they will all have the same address
-
-3. ** Deploy Registry using Factory**!SECTION
-   add your factory address to your env
-
-   ```env
-   # Deploy NFTRegistryFactory contract
-   FACTORY_ADDRESS=0x1234567890123456789012345678901234567890
-   ```
-
-   Run the bash script to deploy a registry
-
-   ```bash
-   bash deploy/DeployNFTRegistryWithFactory.sh
-   ```

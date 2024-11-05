@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 import "forge-std/Script.sol";
-import "src/NFTRegistryFactory.sol";
+import "src/L2RegistryFactory.sol";
 contract FactoryDeployer is Script {
     function setUp() public {}
     function run() public {
@@ -13,7 +13,7 @@ contract FactoryDeployer is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // Get the bytecode of the factory
-        bytes memory bytecode = type(NFTRegistryFactory).creationCode;
+        bytes memory bytecode = type(L2RegistryFactory).creationCode;
 
         // Use a fixed salt for consistent addresses across chains
         string memory saltString = vm.envString("SALT");

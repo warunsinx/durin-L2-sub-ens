@@ -33,7 +33,7 @@ forge build --force
 
 # Deploy with verbose output
 echo "Deploying contracts..."
-forge script deploy/FactoryDeployer.sol:FactoryDeployer \
+forge script deploy/L2FactoryDeployer.sol:FactoryDeployer \
     --rpc-url $RPC_URL \
     --broadcast \
     -vvvv

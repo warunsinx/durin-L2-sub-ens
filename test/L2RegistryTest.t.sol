@@ -2,12 +2,12 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
-import "../src/NFTRegistry.sol";
-import "../src/NFTRegistrar.sol";
+import "../src/L2Registry.sol";
+import "../src/L2Registrar.sol";
 
-contract NFTRegistryTest is Test {
-    NFTRegistry public registry;
-    NFTRegistrar public registrar;
+contract L2RegistryTest is Test {
+    L2Registry public registry;
+    L2Registrar public registrar;
 
     address public admin = address(1);
     address public user1 = address(2);
@@ -20,10 +20,10 @@ contract NFTRegistryTest is Test {
     function setUp() public {
         // Deploy registry with test parameters
         vm.startPrank(admin);
-        registry = new NFTRegistry("TestNames", "TEST", "https://test.uri/");
+        registry = new L2Registry("TestNames", "TEST", "https://test.uri/");
 
         // Deploy registrar
-        registrar = new NFTRegistrar(INFTRegistry(address(registry)));
+        registrar = new L2Registrar(IL2Registry(address(registry)));
 
         // Grant registrar role to registrar contract
         registry.addRegistrar(address(registrar));
@@ -54,11 +54,11 @@ contract NFTRegistryTest is Test {
         registrar.register{value: 0.01 ether}(label, user1);
 
         // Prepare record data
-        NFTRegistry.Text[] memory texts = new NFTRegistry.Text[](1);
-        texts[0] = NFTRegistry.Text({key: "email", value: "test@example.com"});
+        L2Registry.Text[] memory texts = new L2Registry.Text[](1);
+        texts[0] = L2Registry.Text({key: "email", value: "test@example.com"});
 
-        NFTRegistry.Addr[] memory addrs = new NFTRegistry.Addr[](1);
-        addrs[0] = NFTRegistry.Addr({
+        L2Registry.Addr[] memory addrs = new L2Registry.Addr[](1);
+        addrs[0] = L2Registry.Addr({
             coinType: 60, // ETH
             value: abi.encodePacked(user2)
         });

@@ -11,7 +11,7 @@ fi
 
 echo "Deployment Configuration:"
 echo "- Factory Address: $FACTORY_ADDRESS"
-echo "- Contract Name: NFTRegistry"
+echo "- Contract Name: L2Registry"
 echo "- Contract Symbol: $CONTRACT_SYMBOL"
 echo "- Base URI: $BASE_URI"
 echo "- RPC URL is set: ✓"
@@ -23,7 +23,7 @@ echo "Building the project..."
 forge build
 
 # Call the factory's deployRegistry function
-echo "Deploying NFT Registry using factory..."
+echo "Deploying L2 Registry using factory..."
 cast send --rpc-url $RPC_URL \
     --private-key $PRIVATE_KEY \
     --legacy \
