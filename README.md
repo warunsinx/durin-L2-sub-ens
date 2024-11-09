@@ -1,28 +1,35 @@
-# ENS Subnames on L2
+# Durin
 
-There is no official way to build ENS subnames on L2, but this repo implements one possible approach.
+Durin is an opinionated approach to ENS L2 subnames. Durin consists:
 
-## Archicture
+1. Registry factory on supported chains
+2. Registrar template
+3. A default gateway server
 
-ENS resolution always starts on L1, so we use [CCIP Read](https://eips.ethereum.org/EIPS/eip-3668) to defer the resolution to L2. We include the target L2 registry info in the offchain lookup, which is stored in the L1 resolver contract, so the gateway knows where to forward the request.
-
-Since we cannot easily determine the ownership of a L1 .eth name (e.g., name.eth) from L2, we allow anyone to create a registry on L2 via a factory contract. This means multiple L2 registries can exist for the same .eth name. This is acceptable because only the owner of the .eth name on L1 can set the target L2 registry for that name, making it canonical.
-
-![diagram](https://github.com/user-attachments/assets/528cf959-82e7-4d1b-8574-3c5de942af97)
+| L2        | Registry Factory                                                                                                        |
+| --------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Base      | [`0x903492091BC5B90f1cBd924089bcfd309b2c4Ea7`](https://basescan.org/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7) |
+| Optimism  | TBD                                                                                                                     |
+| Scroll    | TBD                                                                                                                     |
+| Arbitrium | TBD                                                                                                                     |
+| linea     | TBD                                                                                                                     |
 
 ## Contracts
 
-This repo includes the L2 registry contracts.
+This repo includes the L2 contracts required to enable subname issuance.
 
-- [L2RegistryFactory](./src/L2RegistryFactory.sol): L2 contract for easily creating new registries.
+- [L2RegistryFactory](./src/L2RegistryFactory.sol): L2 contract for creating new registries.
 - [L2Registry](./src/L2Registry.sol): L2 contract that stores subnames as ERC721 NFTs.
   It's responsible for storing subname data like address and text records.
-- [L2Registrar](./src/L2Registrar.sol): L2 contract that has access to register names to the L2Registry. It's a separate contract because it's most likely to be customized, and you may want to have multiple registrars for the same registry.
+- [L2Registrar](./src/L2Registrar.sol): An example registrar contract that can mint subnames. This is meant to be customized.
 
-## Deploy Registrar
+# How To
 
-Below are the steps to deploy the registrar.
-The other steps to deploy L2 subnames can be found on [our frontend site] Or Manual setup readme
+## 1. Deploy Instance of Registry Factory
+
+[Durin.dev]("Durin.dev") provides an a GUI to do this for you or you can call the [contract directly](https://basescan.org/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7#writeContract).
+
+## 2. Deploy Registrar (This is meant to be customized)
 
 1. **Clone the repository**
 
@@ -37,22 +44,15 @@ The other steps to deploy L2 subnames can be found on [our frontend site] Or Man
 
    ```env
    # Required to Deploy Any Contract
-   RPC_URL=https://your-rpc-url-here
-   PRIVATE_KEY=your-private-key-here
-   BASE_URI=https://your-base-uri.com/
-   ETHERSCAN_API_KEY=your-etherscan-api-key-here
-   CONTRACT_SYMBOL=your-contract-symbol-here
+   RPC_URL=
+   PRIVATE_KEY=
+   BASE_URI=
+   ETHERSCAN_API_KEY=
+   CONTRACT_SYMBOL=
 
    # Required to Deploy L2Registrar contract
-   REGISTRY_ADDRESS=0x1234567890123456789012345678901234567890
+   REGISTRY_ADDRESS=
    ```
-
-   - RPC_URL: RPC endpoint for your L2 (e.g., Alchemy or Infura)
-   - ETHERSCAN_API_KEY: For contract verification (available from your L2's block explorer)
-   - PRIVATE_KEY: The private key to you wallet with enough L2 funds to deploy contracts
-   - BASE_URI: URL for your NFT metadata (modifiable later via setBaseURI)
-   - CONTRACT_SYMBOL: Symbol for your NFT collection
-   - `REGISTRY_ADDRESS`: Address of the L2Registry contract
 
 3. **Deploy L2Registrar contract**
 
@@ -62,26 +62,6 @@ The other steps to deploy L2 subnames can be found on [our frontend site] Or Man
 
    Note the deployed contract address.
 
-4. **Set parameters and grant permissions on your deployed contracts**
+4. **Configure deployed L2Registry**
 
-   Update the Registrar address and parameter values in your `.env`:
-
-   ```env
-   # Set Parameters and grant permission
-   REGISTRAR_ADDRESS=0x1234567890123456789012345678901234567890
-   NAME_PRICE=0
-   ```
-
-   Then run:
-
-   ```shell
-   bash deploy/setParameters.sh
-   ```
-
-   This grants the Registrar the ability to mint names on the Registry and sets pricing and name limits.
-
-   Explanations:
-
-   - `NAME_PRICE`: Pricing for a name in USD.
-
-   Note: These parameters can be modified later via the contract on your L2 blockexplorer.
+   Approve the L2Registrar as a controller on your registry from step 1 via the `addRegistrar()` method. This grants the Registrar the ability to mint names on the Registry and can set pricing.
