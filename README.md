@@ -27,7 +27,7 @@ This repo includes the L2 contracts required to enable subname issuance.
 
 ## 1. Deploy Instance of Registry Factory
 
-[Durin.dev]("Durin.dev") provides an a GUI to do this for you or you can call the [contract directly](https://basescan.org/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7#writeContract).
+Durin.dev (coming soon) provides an a GUI to do this for you or you can call the [contract directly](https://basescan.org/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7#writeContract).
 
 ## 2. Deploy Registrar (This is meant to be customized)
 
@@ -69,4 +69,3 @@ This repo includes the L2 contracts required to enable subname issuance.
 ## Architecture
 
 ![diagram](https://github.com/user-attachments/assets/0ce15738-8689-4177-9efb-8bbc05d7404a)
-
