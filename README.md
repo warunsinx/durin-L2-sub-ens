@@ -6,13 +6,13 @@ Durin is an opinionated approach to ENS L2 subnames. Durin consists:
 2. Registrar template
 3. A default gateway server
 
-| L2        | Registry Factory                                                                                                        |
-| --------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Base      | [`0x903492091BC5B90f1cBd924089bcfd309b2c4Ea7`](https://basescan.org/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7) |
-| Optimism  | TBD                                                                                                                     |
-| Scroll    | TBD                                                                                                                     |
-| Arbitrium | TBD                                                                                                                     |
-| linea     | TBD                                                                                                                     |
+| L2        | Registry Factory                                                                                                                   |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Base      | [`0x903492091BC5B90f1cBd924089bcfd309b2c4Ea7`](https://basescan.org/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7)            |
+| Optimism  | [`0x903492091BC5B90f1cBd924089bcfd309b2c4Ea7`](https://optimistic.etherscan.io/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7) |
+| Scroll    | TBD                                                                                                                                |
+| Arbitrium | TBD                                                                                                                                |
+| linea     | TBD                                                                                                                                |
 
 ## Contracts
 
