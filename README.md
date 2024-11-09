@@ -65,3 +65,8 @@ This repo includes the L2 contracts required to enable subname issuance.
 4. **Configure deployed L2Registry**
 
    Approve the L2Registrar as a controller on your registry from step 1 via the `addRegistrar()` method. This grants the Registrar the ability to mint names on the Registry and can set pricing.
+
+## Architecture
+
+![diagram](https://github.com/user-attachments/assets/0ce15738-8689-4177-9efb-8bbc05d7404a)
+
