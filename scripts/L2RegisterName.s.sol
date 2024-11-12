@@ -1,7 +1,20 @@
+// ***********************************************
+// ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▄▄▄▖▗▄▖ ▗▖  ▗▖▗▄▄▄▖
+// ▐▛▚▖▐▌▐▌ ▐▌▐▛▚▞▜▌▐▌   ▐▌     █ ▐▌ ▐▌▐▛▚▖▐▌▐▌
+// ▐▌ ▝▜▌▐▛▀▜▌▐▌  ▐▌▐▛▀▀▘ ▝▀▚▖  █ ▐▌ ▐▌▐▌ ▝▜▌▐▛▀▀▘
+// ▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌▐▙▄▄▖▗▄▄▞▘  █ ▝▚▄▞▘▐▌  ▐▌▐▙▄▄▖
+// ***********************************************
+
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.20;
+
+/// @author darianb.eth
+/// @custom:project Durin
+/// @custom:company NameStone
+
+// Sets an address record in the L2Registry contract
 // Load environment variables and run the script
 // source .env && forge script scripts/L2RegisterName.s.sol:L2RegisterName --rpc-url $RPC_URL --broadcast
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
 
 import {Script} from "forge-std/Script.sol";
 import {L2Registrar} from "src/L2Registrar.sol";

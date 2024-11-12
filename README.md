@@ -1,7 +1,6 @@
 # <img src="https://github.com/user-attachments/assets/4f01ef6e-3c1e-4201-83db-fac4b383a3b0" alt="durin" width="33%">
 
-Durin is an opinionated approach to ENS L2 subnames. Durin consists:
-
+Durin is an opinionated approach to ENS L2 subnames. Durin consists of:
 
 1. Registry factory on supported chains
 2. Registrar template

@@ -8,7 +8,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
-/// @author darianb.eth + Unruggable
+/// @author darianb.eth
 /// @custom:project Durin
 /// @custom:company NameStone
 
