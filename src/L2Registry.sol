@@ -11,27 +11,6 @@ pragma solidity 0.8.20;
 /// @author darianb.eth + Unruggable(clowes.eth)
 /// @custom:project Durin
 /// @custom:company NameStone
-
-import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
-
-/// @title Registry/Resolver All-in-one (for Layer 2)
-/// @dev The resolution functions works with standard selectors, switching out node for labelhash
-
-contract L2Registry is ERC721, AccessControl {
-    // ***********************************************
-// ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▄▄▄▖▗▄▖ ▗▖  ▗▖▗▄▄▄▖
-// ▐▛▚▖▐▌▐▌ ▐▌▐▛▚▞▜▌▐▌   ▐▌     █ ▐▌ ▐▌▐▛▚▖▐▌▐▌
-// ▐▌ ▝▜▌▐▛▀▜▌▐▌  ▐▌▐▛▀▀▘ ▝▀▚▖  █ ▐▌ ▐▌▐▌ ▝▜▌▐▛▀▀▘
-// ▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌▐▙▄▄▖▗▄▄▞▘  █ ▝▚▄▞▘▐▌  ▐▌▐▙▄▄▖
-// ***********************************************
-
-// SPDX-License-Identifier: MIT
-pragma solidity 0.8.20;
-
-/// @author darianb.eth + Unruggable(clowes.eth)
-/// @custom:project Durin
-/// @custom:company NameStone
 /// @notice Combined registry and resolver contract for Layer 2 name resolution
 /// @dev Implements ERC721 for name ownership and AccessControl for permissions
 
@@ -42,7 +21,6 @@ import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 /// @notice Manages name registration, ownership, and resolution on Layer 2
 /// @dev Uses labelhash instead of node for resolution functions
 contract L2Registry is ERC721, AccessControl {
-
     /// @notice Implements interface detection for ERC721 and AccessControl
     /// @param x The interface identifier to check
     /// @return bool True if the interface is supported
@@ -61,7 +39,7 @@ contract L2Registry is ERC721, AccessControl {
         }
         _;
     }
-    
+
     /// @notice Thrown when caller lacks required permissions
     error Unauthorized();
 
@@ -89,22 +67,22 @@ contract L2Registry is ERC721, AccessControl {
     }
 
     /*
-    * Access Control Roles
-    */
+     * Access Control Roles
+     */
     /// @notice Role identifier for administrative operations
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     /// @notice Role identifier for registrar operations
     bytes32 public constant REGISTRAR_ROLE = keccak256("REGISTRAR_ROLE");
 
     /*
-    * Constants
-    */
+     * Constants
+     */
     /// @notice Ethereum coin type as per SLIP-0044
     uint256 constant COIN_TYPE_ETH = 60;
 
     /*
-    * Properties
-    */
+     * Properties
+     */
     /// @notice Total number of registered names
     uint256 public totalSupply;
     /// @notice Base URI for token metadata
@@ -170,8 +148,8 @@ contract L2Registry is ERC721, AccessControl {
     }
 
     /*
-    * Resolution Functions
-    */
+     * Resolution Functions
+     */
     /// @notice Gets the Ethereum address for a name
     /// @param labelhash The hash of the name to resolve
     /// @return address The Ethereum address
@@ -218,8 +196,8 @@ contract L2Registry is ERC721, AccessControl {
     }
 
     /*
-    * Record Management Functions
-    */
+     * Record Management Functions
+     */
     /// @notice Sets the base URI for token metadata
     /// @param _baseUri The new base URI
     /// @dev Only callable by admin role
