@@ -34,8 +34,8 @@ Durin.dev (coming soon) provides an a GUI to do this for you or you can call the
 1. **Clone the repository**
 
    ```shell
-   git clone git@github.com:resolverworks/durin-nft-contracts.git
-   cd durin-nft-contracts
+   git clone git@github.com:resolverworks/durin.git
+   cd durin
    ```
 
 2. **Set up environment variables**
