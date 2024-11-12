@@ -1,3 +1,17 @@
+// ***********************************************
+// ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▄▄▄▖▗▄▖ ▗▖  ▗▖▗▄▄▄▖
+// ▐▛▚▖▐▌▐▌ ▐▌▐▛▚▞▜▌▐▌   ▐▌     █ ▐▌ ▐▌▐▛▚▖▐▌▐▌
+// ▐▌ ▝▜▌▐▛▀▜▌▐▌  ▐▌▐▛▀▀▘ ▝▀▚▖  █ ▐▌ ▐▌▐▌ ▝▜▌▐▛▀▀▘
+// ▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌▐▙▄▄▖▗▄▄▞▘  █ ▝▚▄▞▘▐▌  ▐▌▐▙▄▄▖
+// ***********************************************
+
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.20;
+
+/// @author darianb.eth
+/// @custom:project Durin
+/// @custom:company NameStone
+
 //source .env && forge script scripts/L2CheckAddress.s.sol:L2CheckAddress --rpc-url $RPC_URL
 
 // SPDX-License-Identifier: MIT
