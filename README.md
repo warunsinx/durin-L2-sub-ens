@@ -8,8 +8,8 @@ Durin is an opinionated approach to ENS L2 subnames. Durin consists of:
 
 | L2        | Registry Factory                                                                                                                   |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Base      | [`0x903492091BC5B90f1cBd924089bcfd309b2c4Ea7`](https://basescan.org/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7)            |
-| Optimism  | [`0x903492091BC5B90f1cBd924089bcfd309b2c4Ea7`](https://optimistic.etherscan.io/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7) |
+| Base      | [`0xCa6c269a771dDCf941639934145fD92f4990c9B2`](https://basescan.org/address/0xCa6c269a771dDCf941639934145fD92f4990c9B2)            |
+| Optimism  | [`0xCa6c269a771dDCf941639934145fD92f4990c9B2`](https://optimistic.etherscan.io/address/0xCa6c269a771dDCf941639934145fD92f4990c9B2) |
 | Scroll    | TBD                                                                                                                                |
 | Arbitrium | TBD                                                                                                                                |
 | linea     | TBD                                                                                                                                |
@@ -23,7 +23,7 @@ This repo includes the L2 contracts required to enable subname issuance.
   It's responsible for storing subname data like address and text records.
 - [L2Registrar](./src/L2Registrar.sol): An example registrar contract that can mint subnames. This is meant to be customized.
 
-# How To
+# Instructions To Deploy L2 ENS Subnames
 
 ## 1. Deploy Instance of Registry Factory
 
@@ -64,7 +64,7 @@ Durin.dev (coming soon) provides an a GUI to do this for you or you can call the
 
 4. **Configure deployed L2Registry**
 
-   Approve the L2Registrar as a controller on your registry from step 1 via the `addRegistrar()` method. This grants the Registrar the ability to mint names on the Registry and can set pricing.
+   Approve the L2Registrar as a controller on your registry from step 1 via the `addRegistrar()` method. This grants the Registrar the ability to mint names on the Registry and can set pricing. (see [setParameters](./deploy/setParameters.sh):)
 
 ## Architecture
 
