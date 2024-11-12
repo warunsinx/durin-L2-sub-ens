@@ -42,6 +42,8 @@ contract L2Registry is ERC721, AccessControl {
 
     /// @notice Thrown when caller lacks required permissions
     error Unauthorized();
+    /// @notice Thrown when initialization is attempted twice
+    error AlreadyInitialized();
 
     /// @notice Emitted when a new name is registered
     event Registered(string label, address owner);
@@ -85,8 +87,13 @@ contract L2Registry is ERC721, AccessControl {
      */
     /// @notice Total number of registered names
     uint256 public totalSupply;
+    /// @notice Flag to track initialization status
+    bool private _initialized;
     /// @notice Base URI for token metadata
     string public baseUri;
+    ///  @notice Store name and symbol as public variables
+    string public name_;
+    string public symbol_;
     /// @notice Mapping of text records for each name
     mapping(bytes32 labelhash => mapping(string key => string)) _texts;
     /// @notice Mapping of address records for each name
@@ -96,18 +103,40 @@ contract L2Registry is ERC721, AccessControl {
     /// @notice Mapping of labels (names) for each labelhash
     mapping(bytes32 labelhash => string) _labels;
 
+    // Initialize with placeholder values that will be updated in initialize()
+    constructor() ERC721("", "") {}
+
     /// @notice Initializes the registry with name, symbol, and base URI
-    /// @param _name Name of the ERC721 token
-    /// @param _symbol Symbol of the ERC721 token
-    /// @param _baseUri Base URI for token metadata
-    constructor(
-        string memory _name,
-        string memory _symbol,
+    /// @param tokenName The name for the ERC721 token
+    /// @param tokenSymbol The symbol for the ERC721 token
+    /// @param _baseUri The base URI for token metadata
+    function initialize(
+        string memory tokenName,
+        string memory tokenSymbol,
         string memory _baseUri
-    ) ERC721(_name, _symbol) {
+    ) external {
+        if (_initialized) {
+            revert AlreadyInitialized();
+        }
+
+        _initialized = true;
+
+        // Store the name and symbol in our public variables
+        name_ = tokenName;
+        symbol_ = tokenSymbol;
         baseUri = _baseUri;
+
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(ADMIN_ROLE, msg.sender);
+    }
+
+    // Override name() and symbol() from ERC721
+    function name() public view override returns (string memory) {
+        return name_;
+    }
+
+    function symbol() public view override returns (string memory) {
+        return symbol_;
     }
 
     /// @notice Returns the base URI for token metadata

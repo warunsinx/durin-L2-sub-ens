@@ -4,11 +4,12 @@ pragma solidity ^0.8.20;
 import "forge-std/Test.sol";
 import "../src/L2Registry.sol";
 import "../src/L2Registrar.sol";
+import "../src/L2RegistryFactory.sol";
 
 contract L2RegistryTest is Test {
+    L2RegistryFactory public factory;
     L2Registry public registry;
     L2Registrar public registrar;
-
     address public admin = address(1);
     address public user1 = address(2);
     address public user2 = address(3);
@@ -18,9 +19,16 @@ contract L2RegistryTest is Test {
     event AddrChanged(bytes32 indexed labelhash, uint256 coinType, bytes value);
 
     function setUp() public {
-        // Deploy registry with test parameters
         vm.startPrank(admin);
-        registry = new L2Registry("TestNames", "TEST", "https://test.uri/");
+
+        // Deploy factory with test salt
+        bytes32 salt = keccak256(abi.encodePacked("test"));
+        factory = new L2RegistryFactory(salt);
+
+        // Deploy registry through factory
+        registry = L2Registry(
+            factory.deployRegistry("TestNames", "TEST", "https://test.uri/")
+        );
 
         // Deploy registrar
         registrar = new L2Registrar(IL2Registry(address(registry)));
@@ -30,6 +38,7 @@ contract L2RegistryTest is Test {
 
         // Set name price
         registrar.setPrice(0.01 ether);
+
         vm.stopPrank();
     }
 
@@ -68,7 +77,6 @@ contract L2RegistryTest is Test {
         // Set records
         vm.expectEmit(true, false, false, true);
         emit TextChanged(labelhash, "email", "test@example.com");
-
         registry.setRecords(labelhash, texts, addrs, contenthash);
         vm.stopPrank();
 
@@ -102,5 +110,74 @@ contract L2RegistryTest is Test {
 
         bytes32 labelhash = keccak256(abi.encodePacked(label));
         assertEq(registry.ownerOf(uint256(labelhash)), user1);
+    }
+
+    // New tests for clone-specific functionality
+    function test_CannotInitializeTwice() public {
+        vm.prank(admin);
+        vm.expectRevert(); // Should revert with AlreadyInitialized
+        registry.initialize("NewName", "NEW", "https://new.uri/");
+    }
+
+    function test_ImplementationIsolation() public {
+        // Deploy two registries
+        vm.startPrank(admin);
+        L2Registry registry2 = L2Registry(
+            factory.deployRegistry("TestNames2", "TEST2", "https://test2.uri/")
+        );
+
+        // Register name in first registry
+        vm.deal(user1, 2 ether);
+        L2Registrar registrar2 = new L2Registrar(
+            IL2Registry(address(registry2))
+        );
+        registry2.addRegistrar(address(registrar2));
+        registrar2.setPrice(0.01 ether);
+        vm.stopPrank();
+
+        // Register same name in both registries
+        string memory label = "test";
+
+        vm.prank(user1);
+        registrar.register{value: 0.01 ether}(label, user1);
+
+        vm.prank(user1);
+        registrar2.register{value: 0.01 ether}(label, user2);
+
+        bytes32 labelhash = keccak256(abi.encodePacked(label));
+
+        // Verify registries are isolated
+        assertEq(registry.ownerOf(uint256(labelhash)), user1);
+        assertEq(registry2.ownerOf(uint256(labelhash)), user2);
+    }
+
+    function test_ImplementationAddress() public view {
+        address implAddr = factory.implementationContract();
+        assertTrue(implAddr != address(0));
+
+        // Verify implementation contract is at expected address
+        address expectedAddr = factory.getImplementationAddress();
+        assertEq(implAddr, expectedAddr);
+    }
+
+    function test_CloneStorage() public {
+        string memory label = "test";
+        bytes32 labelhash = keccak256(abi.encodePacked(label));
+
+        // Register in first registry
+        vm.deal(user1, 1 ether);
+        vm.prank(user1);
+        registrar.register{value: 0.01 ether}(label, user1);
+
+        // Deploy second registry
+        vm.prank(admin);
+        L2Registry registry2 = L2Registry(
+            factory.deployRegistry("TestNames2", "TEST2", "https://test2.uri/")
+        );
+
+        // Verify storage is separate
+        assertTrue(registry.ownerOf(uint256(labelhash)) == user1);
+        vm.expectRevert(); // Should revert as name doesn't exist in registry2
+        registry2.ownerOf(uint256(labelhash));
     }
 }

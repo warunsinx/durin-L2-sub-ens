@@ -4,7 +4,6 @@
 // ▐▌ ▝▜▌▐▛▀▜▌▐▌  ▐▌▐▛▀▀▘ ▝▀▚▖  █ ▐▌ ▐▌▐▌ ▝▜▌▐▛▀▀▘
 // ▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌▐▙▄▄▖▗▄▄▞▘  █ ▝▚▄▞▘▐▌  ▐▌▐▙▄▄▖
 // ***********************************************
-
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
@@ -12,14 +11,22 @@ pragma solidity 0.8.20;
 /// @custom:project Durin
 /// @custom:company NameStone
 /// @notice Factory contract for deploying new L2Registry instances
-/// @dev Uses CREATE opcode for deterministic deployment of registry contracts
+/// @dev Uses OpenZeppelin Clones for gas-efficient deployment of registry contracts
 
 import "./L2Registry.sol";
+import "@openzeppelin/contracts/proxy/Clones.sol";
+import "@openzeppelin/contracts/utils/Create2.sol";
 
 /// @title L2Registry Factory
 /// @notice Facilitates the deployment of new L2Registry instances with proper role configuration
-/// @dev Handles deployment and initial role setup, then renounces factory control
+/// @dev Uses minimal proxy pattern through OpenZeppelin's Clones library
 contract L2RegistryFactory {
+    /// @notice The implementation contract to clone
+    address public immutable implementationContract;
+
+    /// @notice The salt used for implementation deployment
+    bytes32 public immutable IMPLEMENTATION_SALT;
+
     /// @notice Emitted when a new registry is deployed
     /// @param registryAddress The address of the newly deployed registry
     /// @param name The name of the registry's ERC721 token
@@ -34,30 +41,55 @@ contract L2RegistryFactory {
         address admin
     );
 
-    /// @notice Deploys a new L2Registry contract with specified parameters
+    /// @notice Constructor that deploys the implementation contract deterministically
+    /// @param salt The salt used for implementation deployment
+    constructor(bytes32 salt) {
+        IMPLEMENTATION_SALT = salt;
+
+        // Deploy implementation using CREATE2
+        bytes memory bytecode = type(L2Registry).creationCode;
+        implementationContract = Create2.deploy(
+            0,
+            IMPLEMENTATION_SALT,
+            bytecode
+        );
+    }
+
+    /// @notice Gets the deterministic address for the implementation contract
+    /// @return The address where the implementation contract will be deployed
+    function getImplementationAddress() public view returns (address) {
+        bytes memory bytecode = type(L2Registry).creationCode;
+        return
+            Create2.computeAddress(
+                IMPLEMENTATION_SALT,
+                keccak256(bytecode),
+                address(this)
+            );
+    }
+
+    /// @notice Deploys a new L2Registry contract with specified parameters using clones
     /// @param name The name for the registry's ERC721 token
     /// @param symbol The symbol for the registry's ERC721 token
     /// @param baseUri The base URI for the registry's token metadata
-    /// @return address The address of the newly deployed registry
-    /// @dev Handles complete deployment process including:
-    ///      1. Contract deployment
-    ///      2. Role assignment to caller
-    ///      3. Role renunciation by factory
+    /// @return address The address of the newly deployed registry clone
+    /// @dev Uses minimal proxy pattern to create cheap clones of the implementation
     function deployRegistry(
         string memory name,
         string memory symbol,
         string memory baseUri
     ) public returns (address) {
-        // Deploy new L2Registry using CREATE
-        L2Registry registry = new L2Registry(name, symbol, baseUri);
+        // Clone the implementation contract
+        address clone = Clones.clone(implementationContract);
+        L2Registry registry = L2Registry(clone);
+
+        // Initialize the clone
+        registry.initialize(name, symbol, baseUri);
 
         // Grant admin roles to the caller
-        // This allows the deployer to manage the registry
         registry.grantRole(registry.DEFAULT_ADMIN_ROLE(), msg.sender);
         registry.grantRole(registry.ADMIN_ROLE(), msg.sender);
 
         // Renounce factory's admin roles
-        // This ensures the factory cannot interfere with the registry after deployment
         registry.renounceRole(registry.DEFAULT_ADMIN_ROLE(), address(this));
         registry.renounceRole(registry.ADMIN_ROLE(), address(this));
 
