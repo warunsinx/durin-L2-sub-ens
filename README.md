@@ -65,7 +65,7 @@ Durin.dev (coming soon) provides an a GUI to do this for you or you can call the
 4. **Configure L2Registry**
 
    ```shell
-   bash deploy/setParameters.sh
+   bash deploy/configureRegistry.sh
    ```
 
    The configureRegistry.sh script adds the Registrar to the Registry by calling the `addRegistrar()` method and sets pricing to 0. This grants the Registrar the ability to mint names on the Registry.
