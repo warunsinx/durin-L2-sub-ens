@@ -12,7 +12,7 @@ Durin is an opinionated approach to ENS L2 subnames. Durin consists of:
 | Optimism  | [`0xCa6c269a771dDCf941639934145fD92f4990c9B2`](https://optimistic.etherscan.io/address/0xCa6c269a771dDCf941639934145fD92f4990c9B2) |
 | Scroll    | TBD                                                                                                                                |
 | Arbitrium | TBD                                                                                                                                |
-| linea     | TBD                                                                                                                                |
+| Linea     | TBD                                                                                                                                |
 
 ## Contracts
 
@@ -27,7 +27,7 @@ This repo includes the L2 contracts required to enable subname issuance.
 
 ## 1. Deploy Instance of Registry Factory
 
-Durin.dev (coming soon) provides an a GUI to do this for you or you can call the [contract directly](https://basescan.org/address/0x903492091bc5b90f1cbd924089bcfd309b2c4ea7#writeContract).
+[Durin.dev](https://durin.dev/) (coming soon) provides an a GUI to do this for you.
 
 ## 2. Deploy Registrar (This is meant to be customized)
 
