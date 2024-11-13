@@ -62,9 +62,13 @@ Durin.dev (coming soon) provides an a GUI to do this for you or you can call the
 
    Note the deployed contract address.
 
-4. **Configure deployed L2Registry**
+4. **Configure L2Registry**
 
-   Approve the L2Registrar as a controller on your registry from step 1 via the `addRegistrar()` method. This grants the Registrar the ability to mint names on the Registry and can set pricing. (see [setParameters](./deploy/setParameters.sh):)
+   ```shell
+   bash deploy/setParameters.sh
+   ```
+
+   The configureRegistry.sh script adds the Registrar to the Registry by calling the `addRegistrar()` method and sets pricing to 0. This grants the Registrar the ability to mint names on the Registry.
 
 ## Architecture
 
