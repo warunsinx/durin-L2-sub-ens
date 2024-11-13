@@ -8,10 +8,10 @@ Durin is an opinionated approach to ENS L2 subnames. Durin consists of:
 
 | L2        | Registry Factory                                                                                                                   |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Base      | [`0xCa6c269a771dDCf941639934145fD92f4990c9B2`](https://basescan.org/address/0xCa6c269a771dDCf941639934145fD92f4990c9B2)            |
-| Optimism  | [`0xCa6c269a771dDCf941639934145fD92f4990c9B2`](https://optimistic.etherscan.io/address/0xCa6c269a771dDCf941639934145fD92f4990c9B2) |
-| Scroll    | TBD                                                                                                                                |
-| Arbitrium | TBD                                                                                                                                |
+| Base      | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://basescan.org/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)            |
+| Optimism  | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://optimistic.etherscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18) |
+| Scroll    | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://scrollscan.com/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)          |
+| Arbitrium | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://arbiscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)             |
 | Linea     | TBD                                                                                                                                |
 
 ## Contracts
