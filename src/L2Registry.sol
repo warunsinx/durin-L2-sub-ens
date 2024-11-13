@@ -92,8 +92,8 @@ contract L2Registry is ERC721, AccessControl {
     /// @notice Base URI for token metadata
     string public baseUri;
     ///  @notice Store name and symbol as public variables
-    string public name_;
-    string public symbol_;
+    string private _name;
+    string private _symbol;
     /// @notice Mapping of text records for each name
     mapping(bytes32 labelhash => mapping(string key => string)) _texts;
     /// @notice Mapping of address records for each name
@@ -122,8 +122,8 @@ contract L2Registry is ERC721, AccessControl {
         _initialized = true;
 
         // Store the name and symbol in our public variables
-        name_ = tokenName;
-        symbol_ = tokenSymbol;
+        _name = tokenName;
+        _symbol = tokenSymbol;
         baseUri = _baseUri;
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -132,11 +132,11 @@ contract L2Registry is ERC721, AccessControl {
 
     // Override name() and symbol() from ERC721
     function name() public view override returns (string memory) {
-        return name_;
+        return _name;
     }
 
     function symbol() public view override returns (string memory) {
-        return symbol_;
+        return _symbol;
     }
 
     /// @notice Returns the base URI for token metadata
