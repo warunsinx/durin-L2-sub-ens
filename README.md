@@ -12,7 +12,7 @@ Durin is an opinionated approach to ENS L2 subnames. Durin consists of:
 | Optimism  | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://optimistic.etherscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18) |
 | Scroll    | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://scrollscan.com/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)          |
 | Arbitrium | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://arbiscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)             |
-| Linea     | TBD                                                                                                                                |
+| Linea     | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://lineascan.build/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)         |
 
 ## Contracts
 
