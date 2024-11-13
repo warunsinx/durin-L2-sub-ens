@@ -68,7 +68,7 @@ Durin.dev (coming soon) provides an a GUI to do this for you or you can call the
    bash deploy/configureRegistry.sh
    ```
 
-   The configureRegistry.sh script adds the Registrar to the Registry by calling the `addRegistrar()` method and sets pricing to 0. This grants the Registrar the ability to mint names on the Registry.
+   The [configureRegistry.sh](https://github.com/resolverworks/durin/blob/main/deploy/configureRegistry.sh) script adds the Registrar to the Registry by calling the `addRegistrar()` method and sets pricing to 0. This grants the Registrar the ability to mint names on the Registry.
 
 ## Architecture
 
