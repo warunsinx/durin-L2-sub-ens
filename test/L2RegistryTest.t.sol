@@ -36,9 +36,6 @@ contract L2RegistryTest is Test {
         // Grant registrar role to registrar contract
         registry.addRegistrar(address(registrar));
 
-        // Set name price
-        registrar.setPrice(0.01 ether);
-
         vm.stopPrank();
     }
 
@@ -48,7 +45,7 @@ contract L2RegistryTest is Test {
 
         vm.deal(user1, 1 ether);
         vm.prank(user1);
-        registrar.register{value: 0.01 ether}(label, user1);
+        registrar.register(label, user1);
 
         assertEq(registry.ownerOf(uint256(expectedLabelhash)), user1);
     }
@@ -60,7 +57,7 @@ contract L2RegistryTest is Test {
 
         vm.deal(user1, 1 ether);
         vm.startPrank(user1);
-        registrar.register{value: 0.01 ether}(label, user1);
+        registrar.register(label, user1);
 
         // Prepare record data
         L2Registry.Text[] memory texts = new L2Registry.Text[](1);
@@ -106,7 +103,7 @@ contract L2RegistryTest is Test {
 
         vm.deal(user1, 1 ether);
         vm.prank(user1);
-        registrar.register{value: 0.01 ether}(label, user1);
+        registrar.register(label, user1);
 
         bytes32 labelhash = keccak256(abi.encodePacked(label));
         assertEq(registry.ownerOf(uint256(labelhash)), user1);
@@ -132,17 +129,16 @@ contract L2RegistryTest is Test {
             IL2Registry(address(registry2))
         );
         registry2.addRegistrar(address(registrar2));
-        registrar2.setPrice(0.01 ether);
         vm.stopPrank();
 
         // Register same name in both registries
         string memory label = "test";
 
         vm.prank(user1);
-        registrar.register{value: 0.01 ether}(label, user1);
+        registrar.register(label, user1);
 
         vm.prank(user1);
-        registrar2.register{value: 0.01 ether}(label, user2);
+        registrar2.register(label, user2);
 
         bytes32 labelhash = keccak256(abi.encodePacked(label));
 
@@ -167,7 +163,7 @@ contract L2RegistryTest is Test {
         // Register in first registry
         vm.deal(user1, 1 ether);
         vm.prank(user1);
-        registrar.register{value: 0.01 ether}(label, user1);
+        registrar.register(label, user1);
 
         // Deploy second registry
         vm.prank(admin);
