@@ -14,8 +14,6 @@ pragma solidity 0.8.20;
 
 import {IL2Registry} from "./IL2Registry.sol";
 
-/// @notice Thrown when the sent value is less than the required name price
-error InsufficientValue();
 /// @notice Thrown when attempting to interact with a non-existent token
 error ERC721NonexistentToken(uint256 tokenId);
 
@@ -31,9 +29,8 @@ contract L2Registrar {
     /// @dev Immutable to save gas and prevent manipulation
     IL2Registry public immutable targetRegistry;
 
-    /// @notice Initializes the registrar with a registry contract and sets up admin roles
+    /// @notice Initializes the registrar with a registry contract
     /// @param _registry Address of the L2Registry contract
-    /// @dev Grants DEFAULT_ADMIN_ROLE and ADMIN_ROLE to the contract deployer
     constructor(IL2Registry _registry) {
         targetRegistry = _registry;
     }
@@ -69,8 +66,6 @@ contract L2Registrar {
     /// @notice Registers a new name
     /// @param label The name to register
     /// @param owner The address that will own the name
-    /// @dev Requires sufficient payment in ETH
-    /// @dev Returns excess payment to sender
     function register(string memory label, address owner) external {
         targetRegistry.register(label, owner);
         emit NameRegistered(label, owner);

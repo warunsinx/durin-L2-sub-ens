@@ -38,11 +38,8 @@ contract L2RegisterName is Script {
         // Get the contract instance
         L2Registrar registrar = L2Registrar(registrarAddress);
 
-        // Get the current price
-        uint256 price = registrar.namePrice();
-
         // Register the name
-        registrar.register{value: price}(nameToRegister, owner);
+        registrar.register(nameToRegister, owner);
 
         vm.stopBroadcast();
     }
