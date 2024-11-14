@@ -37,6 +37,8 @@ git clone git@github.com:resolverworks/durin.git
 cd durin
 ```
 
+Once cloned modify [L2Registrar.sol](https://github.com/resolverworks/durin/blob/main/src/L2Registrar.sol) as need it.
+
 ### 3. Prepare .env
 
 Copy `example.env` to `.env` and update the following values:
