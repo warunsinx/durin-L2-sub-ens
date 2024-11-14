@@ -2,17 +2,9 @@
 
 Durin is an opinionated approach to ENS L2 subnames. Durin consists of:
 
-1. Registry factory on supported chains
+1. Registry factory on [supported chains](#active-deployments)
 2. Registrar template
 3. A default gateway server
-
-| L2        | Registry Factory                                                                                                                   |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Base      | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://basescan.org/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)            |
-| Optimism  | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://optimistic.etherscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18) |
-| Scroll    | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://scrollscan.com/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)          |
-| Arbitrium | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://arbiscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)             |
-| Linea     | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://lineascan.build/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)         |
 
 ## Contracts
 
@@ -25,50 +17,72 @@ This repo includes the L2 contracts required to enable subname issuance.
 
 # Instructions To Deploy L2 ENS Subnames
 
-## 1. Deploy Instance of Registry Factory
+This repo is meant to be used in conjuction with [Durin.dev](https://durin.dev/), which provides a frontend for deploying the registry & enabling name resolution.
 
-[Durin.dev](https://durin.dev/) (coming soon) provides an a GUI to do this for you.
+### 1. Deploy Instance of Registry
 
-## 2. Deploy Registrar (This is meant to be customized)
+Go to [Durin.dev](https://durin.dev/). Choose Sepolia or Mainnet ENS name resolution. Pick a supported L2, these are NOT testnets. Deploy.
 
-1. **Clone the repository**
+Once complete note the deployed registry address on the L2.
 
-   ```shell
-   git clone git@github.com:resolverworks/durin.git
-   cd durin
-   ```
+### 2. Customize Registrar Template
 
-2. **Set up environment variables**
+Durin provides a registrar template designed for customization. Common customizations include adding pricing, implementing allow lists, and enabling token gating.
 
-   Copy `example.env` to `.env` and update the following values:
+To get started
+clone this repo:
 
-   ```env
-   # Required to Deploy Any Contract
-   RPC_URL=
-   PRIVATE_KEY=
-   BASE_URI=
-   ETHERSCAN_API_KEY=
-   CONTRACT_SYMBOL=
+```shell
+git clone git@github.com:resolverworks/durin.git
+cd durin
+```
 
-   # Required to Deploy L2Registrar contract
-   REGISTRY_ADDRESS=
-   ```
+### 3. Prepare .env
 
-3. **Deploy L2Registrar contract**
+Copy `example.env` to `.env` and update the following values:
 
-   ```shell
-   bash deploy/deployL2Registrar.sh
-   ```
+```env
+# Required: RPC URL for the chain where the registry is deployed
+RPC_URL=
 
-   Note the deployed contract address.
+# Required: Private key of the deployer exclude "0x"
+PRIVATE_KEY=
 
-4. **Configure L2Registry**
+# Required: Etherscan API key for contract verification
+ETHERSCAN_API_KEY=
 
-   ```shell
-   bash deploy/configureRegistry.sh
-   ```
+# Required for L2Registrar contract deployment
+REGISTRY_ADDRESS=
 
-   The [configureRegistry.sh](https://github.com/resolverworks/durin/blob/main/deploy/configureRegistry.sh) script adds the Registrar to the Registry by calling the `addRegistrar()` method and sets pricing to 0. This grants the Registrar the ability to mint names on the Registry.
+# Required to configure the deployed registry from durin.dev website
+REGISTRAR_ADDRESS=
+```
+
+### 4. Deploy L2Registrar Contract
+
+```shell
+bash deploy/deployL2Registrar.sh
+```
+
+Note the deployed contract address.
+
+### 5. Connect Registrar to L2Registry
+
+Only the Registrar can call `register` on the Registry. The owner of the registry can add a registrar thus enabling minting. The [configureRegistry.sh](https://github.com/resolverworks/durin/blob/main/deploy/configureRegistry.sh) script adds the Registrar to the Registry by calling the `addRegistrar()`
+
+```shell
+bash deploy/configureRegistry.sh
+```
+
+## Active Deployments
+
+| L2        | Registry Factory                                                                                                                   |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Base      | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://basescan.org/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)            |
+| Optimism  | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://optimistic.etherscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18) |
+| Scroll    | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://scrollscan.com/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)          |
+| Arbitrium | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://arbiscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)             |
+| Linea     | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://lineascan.build/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)         |
 
 ## Architecture
 
