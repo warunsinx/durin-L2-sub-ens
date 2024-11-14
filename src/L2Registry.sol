@@ -30,16 +30,19 @@ contract L2Registry is ERC721, AccessControl {
         return super.supportsInterface(x);
     }
 
-    /// @notice Ensures only the token owner or approved operator can call a function
+    /// @notice Check if caller is token operator or has registrar role
     /// @param labelhash The hash of the label to check permissions for
-    modifier onlyTokenOperator(bytes32 labelhash) {
+    modifier onlyTokenOperatorOrRegistrar(bytes32 labelhash) {
         address owner = _ownerOf(uint256(labelhash));
-        if (owner != msg.sender && !isApprovedForAll(owner, msg.sender)) {
+        if (
+            owner != msg.sender &&
+            !isApprovedForAll(owner, msg.sender) &&
+            !hasRole(REGISTRAR_ROLE, msg.sender)
+        ) {
             revert Unauthorized();
         }
         _;
     }
-
     /// @notice Thrown when caller lacks required permissions
     error Unauthorized();
     /// @notice Thrown when initialization is attempted twice
@@ -234,20 +237,53 @@ contract L2Registry is ERC721, AccessControl {
         baseUri = _baseUri;
     }
 
-    /// @notice Sets an address record
+    /// @notice Internal function to set address records
     /// @param labelhash The name's hash
-    /// @param coinType The coin type
+    /// @param coinType The coin type to set address for
+    /// @param value The address value
+    function _setAddr(
+        bytes32 labelhash,
+        uint256 coinType,
+        bytes memory value
+    ) internal {
+        _addrs[labelhash][coinType] = value;
+        emit AddrChanged(labelhash, coinType, value);
+    }
+
+    /// @notice Internal function to set text records
+    /// @param labelhash The name's hash
+    /// @param key The record key
+    /// @param value The record value
+    function _setText(
+        bytes32 labelhash,
+        string memory key,
+        string memory value
+    ) internal {
+        _texts[labelhash][key] = value;
+        emit TextChanged(labelhash, key, value);
+    }
+
+    /// @notice Internal function to set content hash
+    /// @param labelhash The name's hash
+    /// @param value The content hash value
+    function _setContenthash(bytes32 labelhash, bytes memory value) internal {
+        _chashes[labelhash] = value;
+        emit ContenthashChanged(labelhash, value);
+    }
+
+    /// @notice Public function to set address records with access control
+    /// @param labelhash The name's hash
+    /// @param coinType The coin type to set address for
     /// @param value The address value
     function setAddr(
         bytes32 labelhash,
         uint256 coinType,
         bytes memory value
-    ) public {
-        _addrs[labelhash][coinType] = value;
-        emit AddrChanged(labelhash, coinType, value);
+    ) public onlyTokenOperatorOrRegistrar(labelhash) {
+        _setAddr(labelhash, coinType, value);
     }
 
-    /// @notice Sets a text record
+    /// @notice Public function to set text records with access control
     /// @param labelhash The name's hash
     /// @param key The record key
     /// @param value The record value
@@ -255,17 +291,18 @@ contract L2Registry is ERC721, AccessControl {
         bytes32 labelhash,
         string memory key,
         string memory value
-    ) public {
-        _texts[labelhash][key] = value;
-        emit TextChanged(labelhash, key, value);
+    ) public onlyTokenOperatorOrRegistrar(labelhash) {
+        _setText(labelhash, key, value);
     }
 
-    /// @notice Sets a content hash
+    /// @notice Public function to set content hash with access control
     /// @param labelhash The name's hash
     /// @param value The content hash value
-    function setContenthash(bytes32 labelhash, bytes memory value) public {
-        _chashes[labelhash] = value;
-        emit ContenthashChanged(labelhash, value);
+    function setContenthash(
+        bytes32 labelhash,
+        bytes memory value
+    ) public onlyTokenOperatorOrRegistrar(labelhash) {
+        _setContenthash(labelhash, value);
     }
 
     /// @notice Batch sets multiple records in one transaction
@@ -273,28 +310,24 @@ contract L2Registry is ERC721, AccessControl {
     /// @param texts Array of text records to set
     /// @param addrs Array of address records to set
     /// @param chash Content hash to set (optional)
-    /// @dev Only callable by token owner or approved operator
     function setRecords(
         bytes32 labelhash,
         Text[] calldata texts,
         Addr[] calldata addrs,
         bytes calldata chash
-    ) external onlyTokenOperator(labelhash) {
+    ) external onlyTokenOperatorOrRegistrar(labelhash) {
         uint256 i;
 
-        // Set texts
         for (i = 0; i < texts.length; i++) {
-            setText(labelhash, texts[i].key, texts[i].value);
+            _setText(labelhash, texts[i].key, texts[i].value);
         }
 
-        // Set addresses
         for (i = 0; i < addrs.length; i++) {
-            setAddr(labelhash, addrs[i].coinType, addrs[i].value);
+            _setAddr(labelhash, addrs[i].coinType, addrs[i].value);
         }
 
-        // Set content hash if provided
         if (chash.length > 0) {
-            setContenthash(labelhash, chash);
+            _setContenthash(labelhash, chash);
         }
     }
 }

@@ -51,12 +51,12 @@ contract L2RegistryTest is Test {
     }
 
     function test_SetRecords() public {
-        // First register a name
         string memory label = "test";
         bytes32 labelhash = keccak256(abi.encodePacked(label));
 
+        // Register as user1
         vm.deal(user1, 1 ether);
-        vm.startPrank(user1);
+        vm.prank(user1);
         registrar.register(label, user1);
 
         // Prepare record data
@@ -65,21 +65,64 @@ contract L2RegistryTest is Test {
 
         L2Registry.Addr[] memory addrs = new L2Registry.Addr[](1);
         addrs[0] = L2Registry.Addr({
-            coinType: 60, // ETH
+            coinType: 60,
             value: abi.encodePacked(user2)
         });
 
         bytes memory contenthash = hex"1234";
 
-        // Set records
+        // Test unauthorized user cannot set records
+        vm.prank(user2);
+        vm.expectRevert();
+        registry.setRecords(labelhash, texts, addrs, contenthash);
+
+        // Test owner can set records
+        vm.prank(user1);
         vm.expectEmit(true, false, false, true);
         emit TextChanged(labelhash, "email", "test@example.com");
         registry.setRecords(labelhash, texts, addrs, contenthash);
-        vm.stopPrank();
+
+        // Test registrar can set records
+        vm.prank(address(registrar));
+        registry.setRecords(labelhash, texts, addrs, contenthash);
 
         // Verify records
         assertEq(registry.text(labelhash, "email"), "test@example.com");
         assertEq(registry.addr(labelhash), user2);
+    }
+
+    function test_RecordAccessControl() public {
+        string memory label = "test";
+        bytes32 labelhash = keccak256(abi.encodePacked(label));
+
+        // Register name
+        vm.deal(user1, 1 ether);
+        vm.prank(user1);
+        registrar.register(label, user1);
+
+        // Test unauthorized access
+        vm.startPrank(user2);
+        vm.expectRevert();
+        registry.setText(labelhash, "email", "test@example.com");
+        vm.expectRevert();
+        registry.setAddr(labelhash, 60, abi.encodePacked(user2));
+        vm.expectRevert();
+        registry.setContenthash(labelhash, hex"1234");
+        vm.stopPrank();
+
+        // Test owner access
+        vm.startPrank(user1);
+        registry.setText(labelhash, "email", "test@example.com");
+        registry.setAddr(labelhash, 60, abi.encodePacked(user2));
+        registry.setContenthash(labelhash, hex"1234");
+        vm.stopPrank();
+
+        // Test registrar access
+        vm.startPrank(address(registrar));
+        registry.setText(labelhash, "email", "new@example.com");
+        registry.setAddr(labelhash, 60, abi.encodePacked(user1));
+        registry.setContenthash(labelhash, hex"5678");
+        vm.stopPrank();
     }
 
     function test_AccessControl() public {
