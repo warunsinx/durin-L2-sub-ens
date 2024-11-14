@@ -96,13 +96,18 @@ Both switching the resolver and adding the text record can be done via durin.dev
 
 ## Active Deployments
 
-| L2        | Registry Factory                                                                                                                   |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Base      | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://basescan.org/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)            |
-| Optimism  | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://optimistic.etherscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18) |
-| Scroll    | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://scrollscan.com/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)          |
-| Arbitrium | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://arbiscan.io/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)             |
-| Linea     | [`0xFaE610A10e51A09fBa8621935632b9B6F6f0DC18`](https://lineascan.build/address/0xfae610a10e51a09fba8621935632b9b6f6f0dc18)         |
+| L2               | Registry Factory                                                                                                                         |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Base             | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://basescan.org/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)                  |
+| Base Sepolia     | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://sepolia.basescan.org/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)          |
+| Optimism         | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://optimistic.etherscan.io/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)       |
+| Optimism Sepolia | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://sepolia-optimism.etherscan.io/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb) |
+| Scroll           | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://scrollscan.com/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)                |
+| Scroll Sepolia   | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://sepolia-blockscout.scroll.io/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)  |
+| Arbitrum         | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://arbiscan.io/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)                   |
+| Arbitrum Sepolia | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://sepolia.arbiscan.io/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)           |
+| Linea            | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://lineascan.build/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)               |
+| Linea Sepolia    | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://sepolia.lineascan.build/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)       |
 
 ## Architecture
 
