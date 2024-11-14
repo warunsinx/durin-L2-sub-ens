@@ -21,7 +21,7 @@ This repo is meant to be used in conjuction with [Durin.dev](https://durin.dev/)
 
 ### 1. Deploy Instance of Registry
 
-Go to [Durin.dev](https://durin.dev/). Choose Sepolia or Mainnet ENS name resolution. Pick a supported L2, these are NOT testnets. Deploy.
+Go to [Durin.dev](https://durin.dev/). Choose Sepolia or Mainnet ENS name resolution. Pick a supported L2 -- either mainnet or sepolia. Deploy.
 
 Once complete note the deployed registry address on the L2.
 
@@ -56,7 +56,7 @@ ETHERSCAN_API_KEY=
 # Required for L2Registrar contract deployment
 REGISTRY_ADDRESS=
 
-# Required to configure the deployed registry from durin.dev website
+# Required to configure the deployed registry from durin.dev website. Add this after deploying the Registrar
 REGISTRAR_ADDRESS=
 ```
 
@@ -66,7 +66,7 @@ REGISTRAR_ADDRESS=
 bash deploy/deployL2Registrar.sh
 ```
 
-Note the deployed contract address.
+Note the deployed contract address. Add it to the .env
 
 ### 5. Connect Registrar to L2Registry
 
@@ -94,7 +94,7 @@ value: {chain_id}:{registry_contract}
 
 Both switching the resolver and adding the text record can be done via durin.dev or the ENS manager app.
 
-## Active Deployments
+## Active Registry Factory Deployments
 
 | L2               | Registry Factory                                                                                                                         |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
