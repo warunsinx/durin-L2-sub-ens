@@ -71,7 +71,7 @@ PRIVATE_KEY=
 # Required: Etherscan API key for contract verification
 ETHERSCAN_API_KEY=
 
-# Required: Registry Address for L2Registrar contract deployment
+# Required for L2Registrar contract deployment
 REGISTRY_ADDRESS=
 
 # Required to configure the deployed registry from durin.dev website. Add this after deploying the Registrar.
