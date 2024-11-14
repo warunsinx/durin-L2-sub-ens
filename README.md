@@ -53,7 +53,7 @@ PRIVATE_KEY=
 # Required: Etherscan API key for contract verification
 ETHERSCAN_API_KEY=
 
-# Required for L2Registrar contract deployment
+# Required: Registry Address for L2Registrar contract deployment
 REGISTRY_ADDRESS=
 
 # Required to configure the deployed registry from durin.dev website. Add this after deploying the Registrar
@@ -66,7 +66,7 @@ REGISTRAR_ADDRESS=
 bash deploy/deployL2Registrar.sh
 ```
 
-Note the deployed contract address. Add it to the .env
+Note the deployed registrar address. Add it to the .env
 
 ### 5. Connect Registrar to L2Registry
 
