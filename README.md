@@ -25,58 +25,7 @@ Go to [Durin.dev](https://durin.dev/). Choose Sepolia or Mainnet ENS name resolu
 
 Once complete note the deployed registry address on the L2.
 
-### 2. Customize Registrar Template
-
-Durin provides a registrar template designed for customization. Common customizations include adding pricing, implementing allow lists, and enabling token gating.
-
-To get started
-clone this repo:
-
-```shell
-git clone git@github.com:resolverworks/durin.git
-cd durin
-```
-
-Once cloned modify [L2Registrar.sol](https://github.com/resolverworks/durin/blob/main/src/L2Registrar.sol) as need it.
-
-### 3. Prepare .env
-
-Copy `example.env` to `.env` and update the following values:
-
-```env
-# Required: RPC URL for the chain where the registry is deployed
-RPC_URL=
-
-# Required: Private key of the deployer exclude "0x"
-PRIVATE_KEY=
-
-# Required: Etherscan API key for contract verification
-ETHERSCAN_API_KEY=
-
-# Required: Registry Address for L2Registrar contract deployment
-REGISTRY_ADDRESS=
-
-# Required to configure the deployed registry from durin.dev website. Add this after deploying the Registrar
-REGISTRAR_ADDRESS=
-```
-
-### 4. Deploy L2Registrar Contract
-
-```shell
-bash deploy/deployL2Registrar.sh
-```
-
-Note the deployed registrar address. Add it to the .env
-
-### 5. Connect Registrar to L2Registry
-
-Only the Registrar can call `register` on the Registry. The owner of the registry can add a registrar thus enabling minting. The [configureRegistry.sh](https://github.com/resolverworks/durin/blob/main/deploy/configureRegistry.sh) script adds the Registrar to the Registry by calling the `addRegistrar()`
-
-```shell
-bash deploy/configureRegistry.sh
-```
-
-## 6. Enable Name Resolution
+## 2. Enable Name Resolution
 
 To enable name resolution, change the resolver on the ENS name.
 
@@ -93,6 +42,57 @@ value: {chain_id}:{registry_contract}
 ```
 
 Both switching the resolver and adding the text record can be done via durin.dev or the ENS manager app.
+
+### 3. Customize Registrar Template
+
+Durin provides a registrar template designed for customization. Common customizations include adding pricing, implementing allow lists, and enabling token gating.
+
+To get started
+clone this repo:
+
+```shell
+git clone git@github.com:resolverworks/durin.git
+cd durin
+```
+
+Once cloned modify [L2Registrar.sol](https://github.com/resolverworks/durin/blob/main/src/L2Registrar.sol) as need it.
+
+### 4. Prepare .env
+
+Copy `example.env` to `.env` and update the following values:
+
+```env
+# Required: RPC URL for the chain where the registry is deployed
+RPC_URL=
+
+# Required: Private key of the deployer exclude "0x"
+PRIVATE_KEY=
+
+# Required: Etherscan API key for contract verification
+ETHERSCAN_API_KEY=
+
+# Required: Registry Address for L2Registrar contract deployment
+REGISTRY_ADDRESS=
+
+# Required to configure the deployed registry from durin.dev website. Add this after deploying the Registrar.
+REGISTRAR_ADDRESS=
+```
+
+### 5. Deploy L2Registrar Contract
+
+```shell
+bash deploy/deployL2Registrar.sh
+```
+
+Note the deployed registrar address. Add it to the .env
+
+### 6. Connect Registrar to L2Registry
+
+Only the Registrar can call `register` on the Registry. The owner of the registry can add a registrar thus enabling minting. The [configureRegistry.sh](https://github.com/resolverworks/durin/blob/main/deploy/configureRegistry.sh) script adds the Registrar to the Registry by calling the `addRegistrar()`
+
+```shell
+bash deploy/configureRegistry.sh
+```
 
 ## Active Registry Factory Deployments
 
