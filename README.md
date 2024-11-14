@@ -74,6 +74,24 @@ Only the Registrar can call `register` on the Registry. The owner of the registr
 bash deploy/configureRegistry.sh
 ```
 
+## 6. Enable Name Resolution
+
+To enable name resolution, change the resolver on the ENS name.
+
+```
+sepolia: 0x00f9314C69c3e7C37b3C7aD36EF9FB40d94eDDe1
+mainnet: 0x2A6C785b002Ad859a3BAED69211167C7e998aAeC
+```
+
+After switching the resolver, add the following text record:
+
+```
+key: registry
+value: {chain_id}:{registry_contract}
+```
+
+Both switching the resolver and adding the text record can be done via durin.dev or the ENS manager app.
+
 ## Active Deployments
 
 | L2        | Registry Factory                                                                                                                   |
