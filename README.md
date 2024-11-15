@@ -2,18 +2,9 @@
 
 Durin is an opinionated approach to ENS L2 subnames. Durin consists of:
 
-1. Registry factory on [supported chains](#active-deployments)
+1. Registry factory on [supported chains](#active-registry-factory-deployments)
 2. Registrar template
-3. A default gateway server
-
-## Contracts
-
-This repo includes the L2 contracts required to enable subname issuance.
-
-- [L2RegistryFactory](./src/L2RegistryFactory.sol): L2 contract for creating new registries.
-- [L2Registry](./src/L2Registry.sol): L2 contract that stores subnames as ERC721 NFTs.
-  It's responsible for storing subname data like address and text records.
-- [L2Registrar](./src/L2Registrar.sol): An example registrar contract that can mint subnames. This is meant to be customized.
+3. Gateway server
 
 # Instructions To Deploy L2 ENS Subnames
 
@@ -93,6 +84,14 @@ Only the Registrar can call `register` on the Registry. The owner of the registr
 ```shell
 bash deploy/configureRegistry.sh
 ```
+## Contracts
+
+This repo includes the L2 contracts required to enable subname issuance.
+
+- [L2RegistryFactory](./src/L2RegistryFactory.sol): L2 contract for creating new registries.
+- [L2Registry](./src/L2Registry.sol): L2 contract that stores subnames as ERC721 NFTs.
+  It's responsible for storing subname data like address and text records.
+- [L2Registrar](./src/L2Registrar.sol): An example registrar contract that can mint subnames. This is meant to be customized.
 
 ## Active Registry Factory Deployments
 
