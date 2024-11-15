@@ -78,7 +78,7 @@ REGISTRAR_ADDRESS=Blank until step 5
 bash deploy/deployL2Registrar.sh
 ```
 
-Note the deployed registrar address. Add it to the .env
+**Update Registrar address in .env**
 
 ### 6. Connect Registrar to L2Registry
 
