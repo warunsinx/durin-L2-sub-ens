@@ -48,6 +48,8 @@ cd durin
 
 Once cloned modify [L2Registrar.sol](https://github.com/resolverworks/durin/blob/main/src/L2Registrar.sol) as need it.
 
+Durin uses [foundry](https://github.com/foundry-rs/foundry), to install follow the [instructions](https://book.getfoundry.sh/getting-started/installation).
+
 ### 4. Prepare .env
 
 
