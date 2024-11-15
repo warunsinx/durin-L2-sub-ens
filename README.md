@@ -112,5 +112,6 @@ This repo includes the L2 contracts required to enable subname issuance.
 | Linea Sepolia    | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://sepolia.lineascan.build/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)       |
 
 ## Architecture
+![architecture](https://github.com/user-attachments/assets/06065784-0516-498e-a512-d7b63892599a)
 
-![diagram](https://github.com/user-attachments/assets/0ce15738-8689-4177-9efb-8bbc05d7404a)
+
