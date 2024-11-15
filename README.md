@@ -50,7 +50,10 @@ Once cloned modify [L2Registrar.sol](https://github.com/resolverworks/durin/blob
 
 ### 4. Prepare .env
 
-Copy `example.env` to `.env` and update the following values:
+
+```shell
+cp example.env .env
+```
 
 ```env
 # Required: RPC URL for the chain where the registry is deployed
