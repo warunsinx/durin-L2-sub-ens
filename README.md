@@ -69,7 +69,7 @@ ETHERSCAN_API_KEY=
 REGISTRY_ADDRESS=
 
 # Required to configure the deployed registry from durin.dev website. Add this after deploying the Registrar.
-REGISTRAR_ADDRESS=
+REGISTRAR_ADDRESS=Blank until step 5
 ```
 
 ### 5. Deploy L2Registrar Contract
