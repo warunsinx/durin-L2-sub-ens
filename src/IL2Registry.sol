@@ -17,4 +17,10 @@ interface IL2Registry {
     function ownerOf(uint256 tokenId) external view returns (address);
     // L2Registry specific methods
     function register(string calldata label, address owner) external;
+    // Enables setting address by registrar
+    function setAddr(
+        bytes32 labelhash,
+        uint256 coinType,
+        bytes memory value
+    ) external;
 }

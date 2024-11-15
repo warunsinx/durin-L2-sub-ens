@@ -68,6 +68,12 @@ contract L2Registrar {
     /// @param owner The address that will own the name
     function register(string memory label, address owner) external {
         targetRegistry.register(label, owner);
+        // Set the mainnet resolved address
+        targetRegistry.setAddr(
+            keccak256(bytes(label)), // Convert label to bytes32 hash
+            60, // Mainnet coinType
+            abi.encodePacked(owner) // Convert address to bytes
+        );
         emit NameRegistered(label, owner);
     }
 }
