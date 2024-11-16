@@ -52,7 +52,6 @@ Durin uses [foundry](https://github.com/foundry-rs/foundry), to install follow t
 
 ### 4. Prepare .env
 
-
 ```shell
 cp example.env .env
 ```
@@ -84,11 +83,12 @@ bash deploy/deployL2Registrar.sh
 
 ### 6. Connect Registrar to L2Registry
 
-Only the Registrar can call `register` on the Registry. The owner of the registry can add a registrar thus enabling minting. The [configureRegistry.sh](https://github.com/resolverworks/durin/blob/main/deploy/configureRegistry.sh) script adds the Registrar to the Registry by calling the `addRegistrar()`
+Only the Registrar can call `register()` on the Registry. The owner of the registry can add a registrar thus enabling minting. The [configureRegistry.sh](https://github.com/resolverworks/durin/blob/main/deploy/configureRegistry.sh) script adds the Registrar to the Registry by calling the `addRegistrar()`
 
 ```shell
 bash deploy/configureRegistry.sh
 ```
+
 ## Contracts
 
 This repo includes the L2 contracts required to enable subname issuance.
@@ -114,6 +114,5 @@ This repo includes the L2 contracts required to enable subname issuance.
 | Linea Sepolia    | [`0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb`](https://sepolia.lineascan.build/address/0xA59eF1DCc0c4bcbDC718b95c0680b6B97Bb451eb)       |
 
 ## Architecture
+
 ![architecture](https://github.com/user-attachments/assets/06065784-0516-498e-a512-d7b63892599a)
-
-

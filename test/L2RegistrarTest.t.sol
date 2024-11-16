@@ -22,9 +22,7 @@ contract L2RegistrarTest is Test {
         factory = new L2RegistryFactory(salt);
 
         // Deploy a registry through the factory
-        registry = L2Registry(
-            factory.deployRegistry("TestNames", "TEST", "https://test.uri/")
-        );
+        registry = L2Registry(factory.deployRegistry("TestNames", "TEST", "https://test.uri/"));
 
         // Deploy and set up registrar
         registrar = new L2Registrar(IL2Registry(address(registry)));
@@ -37,7 +35,7 @@ contract L2RegistrarTest is Test {
         bytes32 labelhash = keccak256(abi.encodePacked(label));
 
         // Should be available before registration
-        assertTrue(registrar.available(uint256(labelhash)));
+        assertTrue(registrar.available(label));
 
         // Register the name
         vm.deal(user1, 1 ether);
@@ -45,7 +43,7 @@ contract L2RegistrarTest is Test {
         registrar.register(label, user1);
 
         // Should not be available after registration
-        assertFalse(registrar.available(uint256(labelhash)));
+        assertFalse(registrar.available(label));
     }
 
     function testFuzz_Register(string calldata label) public {
@@ -70,14 +68,10 @@ contract L2RegistrarTest is Test {
         vm.startPrank(admin);
 
         // Deploy second registry
-        L2Registry registry2 = L2Registry(
-            factory.deployRegistry("TestNames2", "TEST2", "https://test2.uri/")
-        );
+        L2Registry registry2 = L2Registry(factory.deployRegistry("TestNames2", "TEST2", "https://test2.uri/"));
 
         // Verify both registries work independently
-        L2Registrar registrar2 = new L2Registrar(
-            IL2Registry(address(registry2))
-        );
+        L2Registrar registrar2 = new L2Registrar(IL2Registry(address(registry2)));
         registry2.addRegistrar(address(registrar2));
 
         // Register name in first registry
@@ -101,25 +95,14 @@ contract L2RegistrarTest is Test {
 
     function test_RegistryInitialization() public {
         vm.prank(admin);
-        L2Registry newRegistry = L2Registry(
-            factory.deployRegistry("TestNames3", "TEST3", "https://test3.uri/")
-        );
+        L2Registry newRegistry = L2Registry(factory.deployRegistry("TestNames3", "TEST3", "https://test3.uri/"));
 
         // Verify initialization worked
-        assertTrue(
-            newRegistry.hasRole(newRegistry.DEFAULT_ADMIN_ROLE(), admin)
-        );
+        assertTrue(newRegistry.hasRole(newRegistry.DEFAULT_ADMIN_ROLE(), admin));
         assertTrue(newRegistry.hasRole(newRegistry.ADMIN_ROLE(), admin));
 
         // Verify factory doesn't retain any roles
-        assertFalse(
-            newRegistry.hasRole(
-                newRegistry.DEFAULT_ADMIN_ROLE(),
-                address(factory)
-            )
-        );
-        assertFalse(
-            newRegistry.hasRole(newRegistry.ADMIN_ROLE(), address(factory))
-        );
+        assertFalse(newRegistry.hasRole(newRegistry.DEFAULT_ADMIN_ROLE(), address(factory)));
+        assertFalse(newRegistry.hasRole(newRegistry.ADMIN_ROLE(), address(factory)));
     }
 }
