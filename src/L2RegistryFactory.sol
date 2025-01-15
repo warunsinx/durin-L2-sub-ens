@@ -13,9 +13,9 @@ pragma solidity ^0.8.20;
 /// @notice Factory contract for deploying new L2Registry instances
 /// @dev Uses OpenZeppelin Clones for gas-efficient deployment of registry contracts
 
-import "./L2Registry.sol";
-import "@openzeppelin/contracts/proxy/Clones.sol";
-import "@openzeppelin/contracts/utils/Create2.sol";
+import {L2Registry} from "./L2Registry.sol";
+import {Clones} from "@openzeppelin/contracts/proxy/Clones.sol";
+import {Create2} from "@openzeppelin/contracts/utils/Create2.sol";
 
 /// @title L2Registry Factory
 /// @notice Facilitates the deployment of new L2Registry instances with proper role configuration
