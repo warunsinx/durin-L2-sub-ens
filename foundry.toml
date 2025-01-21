@@ -1,0 +1,32 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+# The verbosity level to use during tests.
+verbosity = 3
+
+[fmt]
+bracket_spacing = true
+int_types = "long"
+line_length = 120
+multiline_func_header = "params_first"
+number_underscore = "thousands"
+quote_style = "double"
+tab_width = 4
+wrap_comments = false
+
+[rpc_endpoints]
+mainnet = "https://ethereum-rpc.publicnode.com"
+sepolia = "https://ethereum-sepolia-rpc.publicnode.com"
+base = "https://mainnet.base.org"
+arbitrum = "https://arbitrum-one-rpc.publicnode.com"
+
+[etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}" }
+
+[fuzz]
+# The amount of fuzz runs to perform for each fuzz test case. 
+# Higher values gives more confidence in results at the cost of testing speed.
+runs = 256
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config

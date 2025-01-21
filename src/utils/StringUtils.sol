@@ -6,13 +6,11 @@
 // ***********************************************
 
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.20;
+pragma solidity >=0.8.4;
 
 /// @author Unruggable
 /// @custom:project Durin
 /// @custom:company NameStone
-
-pragma solidity >=0.8.4;
 
 library StringUtils {
     /**
