@@ -4,6 +4,7 @@ out = "out"
 libs = ["lib"]
 # The verbosity level to use during tests.
 verbosity = 3
+solc_version = "0.8.20" 
 
 [fmt]
 bracket_spacing = true
