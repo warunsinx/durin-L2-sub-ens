@@ -60,7 +60,7 @@ cp example.env .env
 # Required: RPC URL for the chain where the registry is deployed
 RPC_URL=
 
-# Required: Private key of the deployer exclude "0x" (Make sure it is connected to the wallet used on durin.dev)
+# Required: Private key of the deployer exclude "0x" (Same as used on durin.dev)
 PRIVATE_KEY=
 
 # Required: Etherscan API key for contract verification
