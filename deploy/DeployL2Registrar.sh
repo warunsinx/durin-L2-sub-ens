@@ -21,8 +21,9 @@ forge build
 echo "Deploying $CONTRACT_NAME from $CONTRACT_FILE..."
 DEPLOYED_OUTPUT=$(ETHERSCAN_API_KEY=$ETHERSCAN_API_KEY forge create --rpc-url $RPC_URL \
              --private-key $PRIVATE_KEY \
-	      --verify \
-	      --legacy \
+	         --verify \
+	         --legacy \
+             --broadcast \
              $CONTRACT_FILE:$CONTRACT_NAME \
              --constructor-args $REGISTRY_ADDRESS \
              --json)
